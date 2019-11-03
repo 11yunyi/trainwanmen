@@ -1,0 +1,1617 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting tensorflow\n",
+      "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/2c/72/6b3264aa2889b7dde7663464b99587d95cd6a5f3b9b30181f14d78a63e64/tensorflow-2.0.0-cp37-cp37m-macosx_10_11_x86_64.whl (102.7MB)\n",
+      "\u001b[K     |████████████████████████████████| 102.7MB 12.6MB/s eta 0:00:01\n",
+      "\u001b[?25hRequirement already satisfied: numpy<2.0,>=1.16.0 in /Users/11yunyi/anaconda3/lib/python3.7/site-packages (from tensorflow) (1.16.4)\n",
+      "Collecting termcolor>=1.1.0 (from tensorflow)\n",
+      "  Downloading https://files.pythonhosted.org/packages/8a/48/a76be51647d0eb9f10e2a4511bf3ffb8cc1e6b14e9e4fab46173aa79f981/termcolor-1.1.0.tar.gz\n",
+      "Collecting tensorflow-estimator<2.1.0,>=2.0.0 (from tensorflow)\n",
+      "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/95/00/5e6cdf86190a70d7382d320b2b04e4ff0f8191a37d90a422a2f8ff0705bb/tensorflow_estimator-2.0.0-py2.py3-none-any.whl (449kB)\n",
+      "\u001b[K     |████████████████████████████████| 450kB 13.8MB/s eta 0:00:01\n",
+      "\u001b[?25hCollecting opt-einsum>=2.3.2 (from tensorflow)\n",
+      "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/b8/83/755bd5324777875e9dff19c2e59daec837d0378c09196634524a3d7269ac/opt_einsum-3.1.0.tar.gz (69kB)\n",
+      "\u001b[K     |████████████████████████████████| 71kB 11.6MB/s eta 0:00:01\n",
+      "\u001b[?25hCollecting gast==0.2.2 (from tensorflow)\n",
+      "  Downloading https://files.pythonhosted.org/packages/4e/35/11749bf99b2d4e3cceb4d55ca22590b0d7c2c62b9de38ac4a4a7f4687421/gast-0.2.2.tar.gz\n",
+      "Requirement already satisfied: six>=1.10.0 in /Users/11yunyi/anaconda3/lib/python3.7/site-packages (from tensorflow) (1.12.0)\n",
+      "Collecting keras-applications>=1.0.8 (from tensorflow)\n",
+      "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/71/e3/19762fdfc62877ae9102edf6342d71b28fbfd9dea3d2f96a882ce099b03f/Keras_Applications-1.0.8-py3-none-any.whl (50kB)\n",
+      "\u001b[K     |████████████████████████████████| 51kB 15.6MB/s eta 0:00:01\n",
+      "\u001b[?25hRequirement already satisfied: wheel>=0.26 in /Users/11yunyi/anaconda3/lib/python3.7/site-packages (from tensorflow) (0.33.4)\n",
+      "Collecting protobuf>=3.6.1 (from tensorflow)\n",
+      "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/a5/c6/a8b6a74ab1e165f0aaa673a46f5c895af8780976880c98934ae82060356d/protobuf-3.10.0-cp37-cp37m-macosx_10_9_intel.whl (1.4MB)\n",
+      "\u001b[K     |████████████████████████████████| 1.4MB 16.8MB/s eta 0:00:01\n",
+      "\u001b[?25hRequirement already satisfied: wrapt>=1.11.1 in /Users/11yunyi/anaconda3/lib/python3.7/site-packages (from tensorflow) (1.11.2)\n",
+      "Collecting google-pasta>=0.1.6 (from tensorflow)\n",
+      "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/d0/33/376510eb8d6246f3c30545f416b2263eee461e40940c2a4413c711bdf62d/google_pasta-0.1.7-py3-none-any.whl (52kB)\n",
+      "\u001b[K     |████████████████████████████████| 61kB 16.6MB/s eta 0:00:01\n",
+      "\u001b[?25hCollecting keras-preprocessing>=1.0.5 (from tensorflow)\n",
+      "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/28/6a/8c1f62c37212d9fc441a7e26736df51ce6f0e38455816445471f10da4f0a/Keras_Preprocessing-1.1.0-py2.py3-none-any.whl (41kB)\n",
+      "\u001b[K     |████████████████████████████████| 51kB 13.4MB/s eta 0:00:01\n",
+      "\u001b[?25hCollecting grpcio>=1.8.6 (from tensorflow)\n",
+      "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/75/07/f1d41d10519ca165b0e078949078f20beb57e7e46dc0f1d56b73bb01270a/grpcio-1.24.1-cp37-cp37m-macosx_10_9_x86_64.whl (2.1MB)\n",
+      "\u001b[K     |████████████████████████████████| 2.1MB 16.7MB/s eta 0:00:01\n",
+      "\u001b[?25hCollecting astor>=0.6.0 (from tensorflow)\n",
+      "  Downloading https://files.pythonhosted.org/packages/d1/4f/950dfae467b384fc96bc6469de25d832534f6b4441033c39f914efd13418/astor-0.8.0-py2.py3-none-any.whl\n",
+      "Collecting absl-py>=0.7.0 (from tensorflow)\n",
+      "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/3b/72/e6e483e2db953c11efa44ee21c5fdb6505c4dffa447b4263ca8af6676b62/absl-py-0.8.1.tar.gz (103kB)\n",
+      "\u001b[K     |████████████████████████████████| 112kB 27.4MB/s eta 0:00:01\n",
+      "\u001b[?25hCollecting tensorboard<2.1.0,>=2.0.0 (from tensorflow)\n",
+      "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/9b/a6/e8ffa4e2ddb216449d34cfcb825ebb38206bee5c4553d69e7bc8bc2c5d64/tensorboard-2.0.0-py3-none-any.whl (3.8MB)\n",
+      "\u001b[K     |████████████████████████████████| 3.8MB 18.0MB/s eta 0:00:01\n",
+      "\u001b[?25hRequirement already satisfied: h5py in /Users/11yunyi/anaconda3/lib/python3.7/site-packages (from keras-applications>=1.0.8->tensorflow) (2.9.0)\n",
+      "Requirement already satisfied: setuptools in /Users/11yunyi/anaconda3/lib/python3.7/site-packages (from protobuf>=3.6.1->tensorflow) (41.0.1)\n",
+      "Requirement already satisfied: werkzeug>=0.11.15 in /Users/11yunyi/anaconda3/lib/python3.7/site-packages (from tensorboard<2.1.0,>=2.0.0->tensorflow) (0.15.4)\n",
+      "Collecting markdown>=2.6.8 (from tensorboard<2.1.0,>=2.0.0->tensorflow)\n",
+      "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/c0/4e/fd492e91abdc2d2fcb70ef453064d980688762079397f779758e055f6575/Markdown-3.1.1-py2.py3-none-any.whl (87kB)\n",
+      "\u001b[K     |████████████████████████████████| 92kB 15.8MB/s eta 0:00:01\n",
+      "\u001b[?25hBuilding wheels for collected packages: termcolor, opt-einsum, gast, absl-py\n",
+      "  Building wheel for termcolor (setup.py) ... \u001b[?25ldone\n",
+      "\u001b[?25h  Stored in directory: /Users/11yunyi/Library/Caches/pip/wheels/7c/06/54/bc84598ba1daf8f970247f550b175aaaee85f68b4b0c5ab2c6\n",
+      "  Building wheel for opt-einsum (setup.py) ... \u001b[?25ldone\n",
+      "\u001b[?25h  Stored in directory: /Users/11yunyi/Library/Caches/pip/wheels/2c/b1/94/43d03e130b929aae7ba3f8d15cbd7bc0d1cb5bb38a5c721833\n",
+      "  Building wheel for gast (setup.py) ... \u001b[?25ldone\n",
+      "\u001b[?25h  Stored in directory: /Users/11yunyi/Library/Caches/pip/wheels/5c/2e/7e/a1d4d4fcebe6c381f378ce7743a3ced3699feb89bcfbdadadd\n",
+      "  Building wheel for absl-py (setup.py) ... \u001b[?25ldone\n",
+      "\u001b[?25h  Stored in directory: /Users/11yunyi/Library/Caches/pip/wheels/a7/15/a0/0a0561549ad11cdc1bc8fa1191a353efd30facf6bfb507aefc\n",
+      "Successfully built termcolor opt-einsum gast absl-py\n",
+      "Installing collected packages: termcolor, tensorflow-estimator, opt-einsum, gast, keras-applications, protobuf, google-pasta, keras-preprocessing, grpcio, astor, absl-py, markdown, tensorboard, tensorflow\n",
+      "Successfully installed absl-py-0.8.1 astor-0.8.0 gast-0.2.2 google-pasta-0.1.7 grpcio-1.24.1 keras-applications-1.0.8 keras-preprocessing-1.1.0 markdown-3.1.1 opt-einsum-3.1.0 protobuf-3.10.0 tensorboard-2.0.0 tensorflow-2.0.0 tensorflow-estimator-2.0.0 termcolor-1.1.0\n",
+      "Note: you may need to restart the kernel to use updated packages.\n"
+     ]
+    }
+   ],
+   "source": [
+    "pip install tensorflow"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: Numpy in /Users/11yunyi/anaconda3/lib/python3.7/site-packages (1.16.4)\n",
+      "Note: you may need to restart the kernel to use updated packages.\n"
+     ]
+    }
+   ],
+   "source": [
+    "pip install Numpy"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "ModuleNotFoundError",
+     "evalue": "No module named 'Nump'",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mModuleNotFoundError\u001b[0m                       Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-1-d2b9d23b5871>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0;32mimport\u001b[0m \u001b[0mNump\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;31mModuleNotFoundError\u001b[0m: No module named 'Nump'"
+     ]
+    }
+   ],
+   "source": [
+    "import Nump"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "False"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "List=[['aaa',1],['bbb',2],['ccc',3]]\n",
+    "\n",
+    "Str='aaa'\n",
+    "List[0]==Str"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "20\n",
+      "[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181]\n"
+     ]
+    }
+   ],
+   "source": [
+    "a=int(input())\n",
+    "y=[0,1]\n",
+    "for i in range(2,a):\n",
+    "    y.append(y[i-2]+y[i-1])\n",
+    "print(y)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def f(x):\n",
+    "    if x==0:\n",
+    "        return 0;\n",
+    "    elif x==1:\n",
+    "        return 1;\n",
+    "    else :\n",
+    "        return f(x-1)+f(x-2)\n",
+    "\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "55"
+      ]
+     },
+     "execution_count": 21,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "f(10)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "(x,y)=[(1,2),(3,1)]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "(1, 2)\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(x)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from collections import Counter\n",
+    "#@pysnooper.snoop()\n",
+    "def neighbors(cell):\n",
+    "    (x,y)=cell\n",
+    "    return[(x-1,y-1),(x,y-1),(x+1,y-1),\n",
+    "           (x-1,y),          (x+1,y),\n",
+    "           (x-1,y+1),(x,y+1),(x+1,y+1)]\n",
+    "\n",
+    "#@pysnooper.snoop()\n",
+    "def neighbors_counts(world):\n",
+    "\n",
+    "   \n",
+    "    return Counter(nb for cell in world for nb in neighbors(cell))\n",
+    "@pysnooper.snoop()\n",
+    "def next_generation(world):\n",
+    "    possible_cells=counts=neighbors_counts(world)\n",
+    "    return{cell for cell in possible_cells if (counts[cell]==3) or (counts[cell]==2 and cell in world)}"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "Source path:... <ipython-input-13-7470093aa629>\n",
+      "Starting var:.. world = {(1, 2), (3, 4), (2, 3)}\n",
+      "15:43:15.864688 call        15 def next_generation(world):\n",
+      "15:43:15.864820 line        16     possible_cells=counts=neighbors_counts(world)\n",
+      "New var:....... possible_cells = Counter({(2, 2): 2, (1, 3): 2, (2, 3): 2, (3, 3)...: 1, (1, 2): 1, (3, 2): 1, (1, 4): 1, (3, 4): 1})\n",
+      "New var:....... counts = Counter({(2, 2): 2, (1, 3): 2, (2, 3): 2, (3, 3)...: 1, (1, 2): 1, (3, 2): 1, (1, 4): 1, (3, 4): 1})\n",
+      "15:43:15.864895 line        17     return{cell for cell in possible_cells if (counts[cell]==3) or (counts[cell]==2 and cell in world)}\n",
+      "15:43:15.864992 return      17     return{cell for cell in possible_cells if (counts[cell]==3) or (counts[cell]==2 and cell in world)}\n",
+      "Return value:.. {(2, 3)}\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "{(2, 3)}"
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "world={(1,2),(3,4),(2,3)}\n",
+    "next_generation(world)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "?Counter"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 87,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "?range"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pysnooper"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import requests"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "r=requests.get('https://www.bilibili.com/bangumi/play/ss5978')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'<!DOCTYPE html><html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><link rel=\"dns-prefetch\" href=\"//s1.hdslb.com\"><link rel=\"dns-prefetch\" href=\"//s2.hdslb.com\"><link rel=\"dns-prefetch\" href=\"//s3.hdslb.com\"><link rel=\"dns-prefetch\" href=\"//i0.hdslb.com\"><link rel=\"dns-prefetch\" href=\"//i1.hdslb.com\"><link rel=\"dns-prefetch\" href=\"//i2.hdslb.com\"><link rel=\"dns-prefetch\" href=\"//static.hdslb.com\"><title>博人传 火影忍者新时代_番剧_bilibili_哔哩哔哩</title><meta name=\"description\" content=\"随着和平的到来而走向近代化的木叶隐村。高楼林立，巨大显示屏中播放出影像，连结各区域的电车在村里奔驰。虽说是忍者村，但一般民众也增多，忍者的生存方式也在逐渐改变的这个时代——\\n村子的领袖、第七代火影·漩\"><meta name=\"keywords\" content=\"博人传 火影忍者新时代\"><meta name=\"author\" content=\"哔哩哔哩番剧\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"><meta property=\"og:title\" content=\"博人传 火影忍者新时代\"><meta property=\"og:type\" content=\"video.anime\"><meta property=\"og:url\" content=\"https://www.bilibili.com/bangumi/play/ss5978/\"><meta property=\"og:image\" content=\"https://i0.hdslb.com/bfs/bangumi/264a2252fc7ab3503d5e7b879b0ba64cf7f80831.jpg\"><meta name=\"spm_prefix\" content=\"666.25\"><link rel=\"shortcut icon\" href=\"//static.hdslb.com/images/favicon.ico\"><script>!function(){for(var n=window.navigator.userAgent,i=[\"Android\",\"iPhone\",\"SymbianOS\",\"Windows Phone\",\"iPod\"],o=!0,e=0,r=i.length;e<r;e++)if(0<n.indexOf(i[e])){o=!1;break}if(0==o){var w=window.location.href.replace(\"www\",\"m\");window.location.href=w}}()</script><link rel=\"stylesheet\" href=\"//s1.hdslb.com/bfs/static/pgcv/css/video.1.311be83473af33d135e5e732f1888d362cbcae9c.css\"><link rel=\"stylesheet\" href=\"//s1.hdslb.com/bfs/static/pgcv/css/video.0.311be83473af33d135e5e732f1888d362cbcae9c.css\"><script type=\"text/javascript\" src=\"//s1.hdslb.com/bfs/static/player/main/video.js?v=201910121\"></script><!-- <script type=\"text/javascript\" src=\"//s2.hdslb.com/bfs/cm/st/bundle.js\"></script> --></head><body class=\"\" style=\"opacity:0\"><script type=\"text/javascript\">function getIEVersion(){var rv=99;if(navigator.appName==\"Microsoft Internet Explorer\"){var ua=navigator.userAgent;var re=new RegExp(\"MSIE ([0-9]{1,}[.0-9]{0,})\");if(re.exec(ua)!=null){rv=parseFloat(RegExp.$1)}}return rv}\\nif(getIEVersion()<=9){\\n    document.body.innerHTML=\"<div class=\\'ie-fix\\'><div class=\\'title\\'>为了保障你的账号安全和最佳预览体验，播放页已不支持IE9及以下IE版本浏览器访问，建议你使用Chrome等高级浏览器或升级到IE最新版本浏览器。</div></div>\"\\n}\\nwindow.bid=13\\nwindow.spmReportData={}\\nwindow.reportConfig={sample:1,scrollTracker:true,msgObjects:\\'spmReportData\\',errorTracker:true,hasAbtest:true,abtestPlatform:4}</script><script type=\"text/javascript\" src=\"//s1.hdslb.com/bfs/seed/log/report/log-reporter.js\" crossorigin></script><div class=\"z-top-container has-stardust\" style=\"position:relative;background-color:#fff;height:50px;box-shadow:0 1px 2px rgba(0,0,0,.1);z-index:10000\"></div><div id=\"app\" data-server-rendered=\"true\" class=\"main-container clearfix\"><div class=\"plp-l\"><div id=\"player_module\" class=\"player-module\"><div id=\"bofqi\" class=\"stardust-player report-wrap-module\"></div> <div class=\"player-tool-bar\"></div> <div id=\"player_mask_module\" class=\"player-mask report-wrap-module\" style=\"display:none;\"><!----> <!----> <!----> <!----> <div class=\"bar-wrapper\"><div class=\"left-bar\"></div><div class=\"right-bar\"></div></div></div></div> <div class=\"media-wrapper\"><h1 title=\"博人传 火影忍者新时代\">博人传 火影忍者新时代</h1> <div id=\"toolbar_module\" class=\"tool-bar clearfix report-wrap-module report-scroll-module\"><!----> <div class=\"share-info\"><i class=\"iconfont icon-share\"></i><span>分享</span> <!----></div> <div class=\"mobile-info\"><i class=\"iconfont icon-mobile-full\"></i><span>用手机观看</span> <!----></div></div> <div id=\"media_module\" class=\"media-info clearfix report-wrap-module\"><a href=\"//www.bilibili.com/bangumi/media/md5978/\" target=\"_blank\" class=\"media-cover\"><!----></a> <div class=\"media-right\"><a href=\"//www.bilibili.com/bangumi/media/md5978/\" target=\"_blank\" title=\"博人传 火影忍者新时代\" class=\"media-title\">博人传 火影忍者新时代</a> <div class=\"media-count\">--&nbsp;&nbsp;·&nbsp;&nbsp;--&nbsp;&nbsp;·&nbsp;&nbsp;--</div> <div class=\"pub-wrapper clearfix\"><a href=\"//www.bilibili.com/anime/\" target=\"_blank\" class=\"home-link\">番剧</a> <span class=\"pub-info\">连载中, 每周日17:30更新</span> <!----> <!----></div> <a href=\"//www.bilibili.com/bangumi/media/md5978/\" target=\"_blank\" class=\"media-desc webkit-ellipsis\"><span class=\"absolute\">随着和平的到来而走向近代化的木叶隐村。高楼林立，巨大显示屏中播放出影像，连结各区域的电车在村里奔驰。虽说是忍者村，但一般民众也增多，忍者的生存方式也在逐渐改变的这个时代——\\n村子的领袖、第七代火影·漩涡鸣人的儿子博人，进入了培育忍者的学校“忍者学校”。周围的学生们带着“火影的儿子”这样偏见的目光看待博人，但博人凭借天生的破天荒性格将这种小事轻松越过！\\n博人与新的伙伴相遇，他将如何挑战突然发生的神秘事件？在众人心中如疾风般狂奔的“漩涡博人”的物语，现在开始！！</span><span>随着和平的到来而走向近代化的木叶隐村。高楼林立，巨大显示屏中播放出影像，连结各区域的电车在村里奔驰。虽说是忍者村，但一般民众也增多，忍者的生存方式也在逐渐改变的这个时代——\\n村子的领袖、第七代火影·漩涡鸣人的儿子博人，进入了培育忍者的学校“忍者学校”。周围的学生们带着“火影的儿子”这样偏见的目光看待博人，但博人凭借天生的破天荒性格将这种小事轻松越过！\\n博人与新的伙伴相遇，他将如何挑战突然发生的神秘事件？在众人心中如疾风般狂奔的“漩涡博人”的物语，现在开始！！</span><i style=\"display:none;\">展开</i></a> <div class=\"media-rating\"><h4 class=\"score\">4.4</h4> <p>8.4万人评分</p></div> <div class=\"media-tool-bar clearfix\"><div report-id=\"click_review_publish\" class=\"btn-rating\"><ul class=\"star-wrapper clearfix\"><li><i class=\"iconfont icon-star-empty\"></i> <!----></li><li><i class=\"iconfont icon-star-empty\"></i> <!----></li><li><i class=\"iconfont icon-star-empty\"></i> <!----></li><li><i class=\"iconfont icon-star-empty\"></i> <!----></li><li><i class=\"iconfont icon-star-empty\"></i> <!----></li></ul><span>点评</span></div> <div report-id=\"click_follow\" class=\"btn-follow\"><i class=\"iconfont icon-follow\"></i><span>追番</span> <div class=\"bangumi-options clearfix\"><ul class=\"opt-list\"><li>标记为 想看</li> <li>标记为 在看</li> <li>标记为 已看</li> <li>取消追番</li></ul></div></div></div></div></div></div> <div id=\"review_module\" class=\"review-module report-wrap-module report-scroll-module\"><div class=\"module-title clearfix\"><h4>点评</h4> <a href=\"//www.bilibili.com/bangumi/media/md5978/\" target=\"_blank\" class=\"more-link\">查看全部</a></div> <div class=\"review-list\"><div class=\"review-item\"><div class=\"review-empty pre-mask\"></div> <!----></div><div class=\"review-item\"><div class=\"review-empty pre-mask\"></div> <!----></div><div class=\"review-item\"><div class=\"review-empty pre-mask\"></div> <!----></div> <!----></div></div> <!----> <div id=\"comment_module\" class=\"comment-wrapper common report-wrap-module report-scroll-module\" style=\"display:none;\"><div class=\"b-head\"><span class=\"results\"></span><span>评论</span></div> <div class=\"comm\"></div></div></div> <div class=\"plp-r\"><div id=\"paybar_module\" class=\"pay-bar report-wrap-module pre-mask\"><!----> <!----> <!----> <!----> <!----></div> <div id=\"danmukuBox\" class=\"danmaku-box has-pay-bar\" style=\"display:none;\"><div class=\"danmaku-wrap\"></div></div> <div id=\"eplist_module\" class=\"ep-list-wrapper report-wrap-module\"><div class=\"list-title clearfix\"><h4 title=\"选集\">选集</h4><i report-id=\"click_ep_switch\" class=\"mode-change iconfont icon-ep-list-detail\"></i> <span class=\"ep-list-progress\">0/128</span></div> <div class=\"list-wrapper longlist\"><ul class=\"clearfix\" style=\"height:4602px;\"></ul></div></div>  <!----> <div id=\"recom_module\" class=\"recom-wrapper report-wrap-module report-scroll-module\"><div class=\"recom-title\">相关视频推荐</div> <div class=\"recom-list\"><div class=\"recom-item clearfix\"><div class=\"cover-wrapper pre-mask\"></div> <!----> <!----> <div class=\"info-wrapper\"><div class=\"video-title pre-mask\"></div> <div class=\"video-uper pre-mask\"></div> <div class=\"video-count pre-mask\"></div></div> <!----></div><div class=\"recom-item clearfix\"><div class=\"cover-wrapper pre-mask\"></div> <!----> <!----> <div class=\"info-wrapper\"><div class=\"video-title pre-mask\"></div> <div class=\"video-uper pre-mask\"></div> <div class=\"video-count pre-mask\"></div></div> <!----></div><div class=\"recom-item clearfix\"><div class=\"cover-wrapper pre-mask\"></div> <!----> <!----> <div class=\"info-wrapper\"><div class=\"video-title pre-mask\"></div> <div class=\"video-uper pre-mask\"></div> <div class=\"video-count pre-mask\"></div></div> <!----></div><div class=\"recom-item clearfix\"><div class=\"cover-wrapper pre-mask\"></div> <!----> <!----> <div class=\"info-wrapper\"><div class=\"video-title pre-mask\"></div> <div class=\"video-uper pre-mask\"></div> <div class=\"video-count pre-mask\"></div></div> <!----></div><div class=\"recom-item clearfix\"><div class=\"cover-wrapper pre-mask\"></div> <!----> <!----> <div class=\"info-wrapper\"><div class=\"video-title pre-mask\"></div> <div class=\"video-uper pre-mask\"></div> <div class=\"video-count pre-mask\"></div></div> <!----></div></div> <!----></div></div> <div class=\"entry-old\"><!----> <!----></div> <div class=\"nav-tools\" style=\"display:none;\"><div title=\"返回顶部\" class=\"tool-item backup iconfont icon-up\"></div> <!----> <a title=\"帮助反馈\" href=\"//www.bilibili.com/blackboard/help.html#%E5%B8%B8%E8%A7%81%E6%92%AD%E6%94%BE%E9%97%AE%E9%A2%98%E8%87%AA%E6%95%91%E6%96%B9%E6%B3%95\" target=\"_blank\"><div class=\"tool-item help iconfont icon-customer-serv\"></div></a></div> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----></div> <script>window.__PGC_USERSTATE__={\"area_limit\":1,\"ban_area_show\":1,\"dialog\":{\"btn_right\":{\"title\":\"成为大会员\",\"type\":\"vip\"},\"desc\":\"\",\"title\":\"开通大会员观看\"},\"follow\":0,\"follow_status\":2,\"login\":0,\"paster\":{\"aid\":0,\"allow_jump\":0,\"cid\":0,\"duration\":0,\"type\":0,\"url\":\"\"},\"pay\":0,\"pay_pack_paid\":0,\"sponsor\":0}</script><script>window.__INITIAL_STATE__={\"loaded\":true,\"ver\":{},\"ssr\":{},\"loginInfo\":{},\"h1Title\":\"博人传 火影忍者新时代\",\"mediaInfo\":{\"id\":5978,\"ssId\":5978,\"title\":\"博人传 火影忍者新时代\",\"jpTitle\":\"\",\"series\":\"博人传 火影忍者新时代\",\"alias\":\"\",\"evaluate\":\"随着和平的到来而走向近代化的木叶隐村。高楼林立，巨大显示屏中播放出影像，连结各区域的电车在村里奔驰。虽说是忍者村，但一般民众也增多，忍者的生存方式也在逐渐改变的这个时代——\\\\n村子的领袖、第七代火影·漩涡鸣人的儿子博人，进入了培育忍者的学校“忍者学校”。周围的学生们带着“火影的儿子”这样偏见的目光看待博人，但博人凭借天生的破天荒性格将这种小事轻松越过！\\\\n博人与新的伙伴相遇，他将如何挑战突然发生的神秘事件？在众人心中如疾风般狂奔的“漩涡博人”的物语，现在开始！！\",\"ssType\":1,\"ssTypeFormat\":{\"name\":\"番剧\",\"homeLink\":\"\\\\u002F\\\\u002Fwww.bilibili.com\\\\u002Fanime\\\\u002F\"},\"status\":13,\"multiMode\":true,\"specialCover\":\"\",\"squareCover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Fbangumi\\\\u002F3121473d5dd03a9bcccb8490034207e724e731b3.jpg\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Fbangumi\\\\u002F264a2252fc7ab3503d5e7b879b0ba64cf7f80831.jpg\",\"playerRecord\":\"\",\"rights\":{\"allowBp\":false,\"allowBpRank\":false,\"allowReview\":true,\"isPreview\":false,\"appOnly\":false,\"limitNotFound\":false,\"isCoverShow\":false,\"canWatch\":true},\"pub\":{\"time\":\"2017-04-05 17:55:00\",\"timeShow\":\"2017年04月05日17:55\",\"isStart\":true,\"isFinish\":false},\"upInfo\":{\"mid\":-1,\"avatar\":\"\",\"name\":\"\",\"isAnnualVip\":false,\"pendantId\":-1,\"pendantName\":\"\",\"pendantImage\":\"\"},\"rating\":{\"score\":4.4,\"count\":84364},\"newestEp\":{\"id\":276296,\"desc\":\"连载中, 每周日17:30更新\",\"isNew\":false},\"payMent\":{\"price\":\"0.0\",\"tip\":\"大会员专享观看特权哦~\",\"promotion\":\"\",\"vipProm\":\"开通大会员观看\",\"vipFirstProm\":\"\",\"discount\":1,\"vipDiscount\":1,\"sixType\":{\"allowTicket\":false,\"allowTimeLimit\":false,\"allowDiscount\":false,\"allowVipDiscount\":false}},\"payPack\":{\"title\":\"\",\"appNoPayText\":\"\",\"appPayText\":\"\",\"url\":\"\"},\"activity\":{\"pendantOpsImg\":\"\",\"pendantOpsLink\":\"\"},\"count\":{\"coins\":0,\"danmus\":0,\"follows\":0,\"views\":0},\"pgcType\":\"anime\",\"epSpMode\":false,\"newEpSpMode\":true,\"mainSecTitle\":\"选集\"},\"epList\":[{\"loaded\":false,\"id\":103308,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":9630292,\"cid\":15915981,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi1.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F2b3019aff1cc477d1392beef775677aab8e7111c.jpg\",\"title\":\"1\",\"titleFormat\":\"第1话\",\"vid\":\"\",\"longTitle\":\"漩涡博人\",\"hasNext\":true,\"i\":0,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":103309,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":9790797,\"cid\":16186675,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F267c265d5b11d350b2f33f50ec689c9066b92544.jpg\",\"title\":\"2\",\"titleFormat\":\"第2话\",\"vid\":\"\",\"longTitle\":\"火影的儿子\",\"hasNext\":true,\"i\":1,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":103310,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":9948681,\"cid\":16446879,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi2.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Ff6838a2791a08700f5c0c89f3dac57997266fbb5.jpg\",\"title\":\"3\",\"titleFormat\":\"第3话\",\"vid\":\"\",\"longTitle\":\"暴走 梅塔尔·李\",\"hasNext\":true,\"i\":2,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":103311,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":10110417,\"cid\":16705829,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi2.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F5cd30df4021f6468ff71bd9a5b558f7e198167e3.jpg\",\"title\":\"4\",\"titleFormat\":\"第4话\",\"vid\":\"\",\"longTitle\":\"男女对抗忍术合战\",\"hasNext\":true,\"i\":3,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":103312,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":10282892,\"cid\":19767865,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi1.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fc4d29f12e73ae9e592c5f232e2ea5cf176c0a688.jpg\",\"title\":\"5\",\"titleFormat\":\"第5话\",\"vid\":\"\",\"longTitle\":\"神秘转校生\",\"hasNext\":true,\"i\":4,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":103313,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":10455714,\"cid\":17266999,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi2.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fb579869154e5e02925ff75a74862bc30fce0ef1f.jpg\",\"title\":\"6\",\"titleFormat\":\"第6话\",\"vid\":\"\",\"longTitle\":\"最后的授课\",\"hasNext\":true,\"i\":5,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":103314,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":10625276,\"cid\":17539266,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi1.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F9fdf380c863cc64b1b25b831c4e643f81f0f94c7.jpg\",\"title\":\"7\",\"titleFormat\":\"第7话\",\"vid\":\"\",\"longTitle\":\"恋爱与薯片\",\"hasNext\":true,\"i\":6,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":103315,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":10793165,\"cid\":17808980,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F2595e6799ef4be1737430dfe70ae7a61e9164f93.jpg\",\"title\":\"8\",\"titleFormat\":\"第8话\",\"vid\":\"\",\"longTitle\":\"梦的启示\",\"hasNext\":true,\"i\":7,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":103316,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":10969990,\"cid\":18158318,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi2.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F89d2101363361bb168a815ce978471015ae1c963.jpg\",\"title\":\"9\",\"titleFormat\":\"第9话\",\"vid\":\"\",\"longTitle\":\"自我的证明\",\"hasNext\":true,\"i\":8,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":103317,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":11141029,\"cid\":18433991,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi1.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fd6366f7b4464ad2097feb1c31b7388424d1042a9.jpg\",\"title\":\"10\",\"titleFormat\":\"第10话\",\"vid\":\"\",\"longTitle\":\"幽灵事件开始调查\",\"hasNext\":true,\"i\":9,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":103318,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":11322083,\"cid\":18723123,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi2.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fd7241924ed1e5318966a66f847428177bc8b286a.jpg\",\"title\":\"11\",\"titleFormat\":\"第11话\",\"vid\":\"\",\"longTitle\":\"黑幕之影\",\"hasNext\":true,\"i\":10,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":103319,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":11505955,\"cid\":19021649,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi1.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F3b8e7b765fc17c115868239c0f3e48cad9d38e5f.jpg\",\"title\":\"12\",\"titleFormat\":\"第12话\",\"vid\":\"\",\"longTitle\":\"博人和巳月\",\"hasNext\":true,\"i\":11,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113056,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":11700018,\"cid\":19328817,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi1.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F79017da70aea9f6d0d8382c4a3554abbec637dee.jpg\",\"title\":\"13\",\"titleFormat\":\"第13话\",\"vid\":\"\",\"longTitle\":\"魔兽现身\",\"hasNext\":true,\"i\":12,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113057,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":11906759,\"cid\":19658109,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi2.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fcc3e29fad0b26eda2f7b29ed7a101de1f48e9357.jpg\",\"title\":\"14\",\"titleFormat\":\"第14话\",\"vid\":\"\",\"longTitle\":\"博人眼中的道路\",\"hasNext\":true,\"i\":13,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113058,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":12128719,\"cid\":20001614,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F954137ace2cc57ab713abf2fca82c4732812480d.jpg\",\"title\":\"15\",\"titleFormat\":\"第15话\",\"vid\":\"\",\"longTitle\":\"新的道路\",\"hasNext\":true,\"i\":14,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113059,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":12358142,\"cid\":20354481,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi1.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F6c5d6c7da6f009c6ce6ae516cebd60a07e01480b.jpg\",\"title\":\"16\",\"titleFormat\":\"第16话\",\"vid\":\"\",\"longTitle\":\"留级危机\",\"hasNext\":true,\"i\":15,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113060,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":12605814,\"cid\":20737497,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi1.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fde6d7a25fe8e600ce1a9727b494a3039bde8a33d.jpg\",\"title\":\"17\",\"titleFormat\":\"第17话\",\"vid\":\"\",\"longTitle\":\"佐良娜飞奔\",\"hasNext\":true,\"i\":16,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113061,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":12870699,\"cid\":21148719,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Ffac81ebd04d913e9b9bbbce6965645070e0f14c0.jpg\",\"title\":\"18\",\"titleFormat\":\"第18话\",\"vid\":\"\",\"longTitle\":\"旋涡家的一天\",\"hasNext\":true,\"i\":17,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113062,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":13148955,\"cid\":21574959,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Ff1d0ad3f1d65b67742c19dd6c38240b1cb8f35d5.jpg\",\"title\":\"19\",\"titleFormat\":\"第19话\",\"vid\":\"\",\"longTitle\":\"宇智波佐良娜\",\"hasNext\":true,\"i\":18,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113063,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":13429660,\"cid\":22001329,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fab1f42c17898d543ce7ccdc8a8eb1610db35d1fb.jpg\",\"title\":\"20\",\"titleFormat\":\"第20话\",\"vid\":\"\",\"longTitle\":\"写轮眼少年\",\"hasNext\":true,\"i\":19,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113064,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":13712828,\"cid\":22430125,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi1.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fee574d051119fb194a8790bc1df69b156fd86076.jpg\",\"title\":\"21\",\"titleFormat\":\"第21话\",\"vid\":\"\",\"longTitle\":\"佐助与佐良娜\",\"hasNext\":true,\"i\":20,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113065,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":13987805,\"cid\":22846915,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi1.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F93d431798fda6562c580bd9aa5cf08784c294b29.jpg\",\"title\":\"22\",\"titleFormat\":\"第22话\",\"vid\":\"\",\"longTitle\":\"相连的心意\",\"hasNext\":true,\"i\":21,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113066,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":14217706,\"cid\":23205879,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi2.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fb2887999c8a0f02e71cc2b821ed16201416b4f3b.jpg\",\"title\":\"23\",\"titleFormat\":\"第23话\",\"vid\":\"\",\"longTitle\":\"纽带的形式\",\"hasNext\":true,\"i\":22,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113067,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":14427233,\"cid\":23538308,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi1.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F3758ac93e36d0a68d7fa09d393b98369f3cb78ec.jpg\",\"title\":\"24\",\"titleFormat\":\"第24话\",\"vid\":\"\",\"longTitle\":\"博人与佐良娜\",\"hasNext\":true,\"i\":23,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113068,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":14632186,\"cid\":23856009,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fa11b034f6b409f75907ed6d324554063a461bf3f.jpg\",\"title\":\"25\",\"titleFormat\":\"第25话\",\"vid\":\"\",\"longTitle\":\"修学旅行风波\",\"hasNext\":true,\"i\":24,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113069,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":14840418,\"cid\":24181254,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi1.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F33ff19521c1dba12cbcdcab5652da1eefaf529d6.jpg\",\"title\":\"26\",\"titleFormat\":\"第26话\",\"vid\":\"\",\"longTitle\":\"水影的后继者\",\"hasNext\":true,\"i\":25,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113070,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":15068823,\"cid\":24540526,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi2.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fea4a4e82146ca1f0aa7421be3a7482ff000250cb.jpg\",\"title\":\"27\",\"titleFormat\":\"第27话\",\"vid\":\"\",\"longTitle\":\"友情的忍者比拼\",\"hasNext\":true,\"i\":26,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113071,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":15295830,\"cid\":24897500,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi2.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Ffb34c6c22f6948069eaf850a4edbafb02a9b732e.jpg\",\"title\":\"28\",\"titleFormat\":\"第28话\",\"vid\":\"\",\"longTitle\":\"宣战布告\",\"hasNext\":true,\"i\":27,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113072,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":15506354,\"cid\":25235080,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi2.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fffabc9b520d91e780d4f3c145a83aefa0230a2eb.jpg\",\"title\":\"29\",\"titleFormat\":\"第29话\",\"vid\":\"\",\"longTitle\":\"新忍刀七人众\",\"hasNext\":true,\"i\":28,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113073,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":15712479,\"cid\":25583390,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F4a914da761b6bf8d7fa547924b58dd2a32607438.jpg\",\"title\":\"30\",\"titleFormat\":\"第30话\",\"vid\":\"\",\"longTitle\":\"写轮眼vs雷刀·牙\",\"hasNext\":true,\"i\":29,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113074,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":15921633,\"cid\":25981793,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi1.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F2784b50e0c3e24a2f5a78eee744148762405c4ac.jpg\",\"title\":\"31\",\"titleFormat\":\"第31话\",\"vid\":\"\",\"longTitle\":\"博人与神乐\",\"hasNext\":true,\"i\":30,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113075,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":16133765,\"cid\":26927118,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi1.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Ffa354f0b2e70caa1affc324b81715874861f6f67.jpg\",\"title\":\"32\",\"titleFormat\":\"第32话\",\"vid\":\"\",\"longTitle\":\"土产大搜寻\",\"hasNext\":true,\"i\":31,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113076,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":16349724,\"cid\":26675543,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi1.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F28c4fc55b3952e8f0c78cfa8a5189b5f3639e660.jpg\",\"title\":\"33\",\"titleFormat\":\"第33话\",\"vid\":\"\",\"longTitle\":\"萎靡！！超兽伪画\",\"hasNext\":true,\"i\":32,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113077,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":16565846,\"cid\":27020442,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi2.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F5d2c972d18a37e82cc91fea6217179ad1c32dfac.jpg\",\"title\":\"34\",\"titleFormat\":\"第34话\",\"vid\":\"\",\"longTitle\":\"星降之夜\",\"hasNext\":true,\"i\":33,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113078,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":16774389,\"cid\":27408319,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi1.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F714dde83dcaa6c7834234200b72d0f4affcd1d6d.jpg\",\"title\":\"35\",\"titleFormat\":\"第35话\",\"vid\":\"\",\"longTitle\":\"三者面谈\",\"hasNext\":true,\"i\":34,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113079,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":16994693,\"cid\":27781232,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi2.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F6fc0a4123d9b168d0cddec084669105bec0de986.jpg\",\"title\":\"36\",\"titleFormat\":\"第36话\",\"vid\":\"\",\"longTitle\":\"毕业考试 开始！！\",\"hasNext\":true,\"i\":35,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":113080,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":17220887,\"cid\":28142766,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F661b59b9435129492e7c4cffa63f7a687779723d.jpg\",\"title\":\"37\",\"titleFormat\":\"第37话\",\"vid\":\"\",\"longTitle\":\"忍者的觉悟\",\"hasNext\":true,\"i\":36,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":152481,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":17444607,\"cid\":28495258,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi2.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fc105d80e5bb7135b5e4f7ee91fec58ec87741e4c.jpg\",\"title\":\"38\",\"titleFormat\":\"第38话\",\"vid\":\"\",\"longTitle\":\"三人小队 结成…？\",\"hasNext\":true,\"i\":37,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":161928,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":17673399,\"cid\":28853453,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi2.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F0fd021320af3f3b896d17093e87871e2328dbc81.jpg\",\"title\":\"39\",\"titleFormat\":\"第39话\",\"vid\":\"\",\"longTitle\":\"满月照亮的道路\",\"hasNext\":true,\"i\":38,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":179621,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":18161109,\"cid\":29650209,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F301d9884d3d2a7de6123d8939f0597f90090e69a.jpg\",\"title\":\"40\",\"titleFormat\":\"第40话\",\"vid\":\"\",\"longTitle\":\"第七班·最初的任务！！\",\"hasNext\":true,\"i\":39,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":197744,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":19751353,\"cid\":32205533,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fe08812f553fff359f8fd574c3a7519fd6983b56c.jpg\",\"title\":\"41\",\"titleFormat\":\"第41话\",\"vid\":\"\",\"longTitle\":\"团结的力量\",\"hasNext\":true,\"i\":40,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":197745,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":19751363,\"cid\":32205541,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F71c4457be4baa8227c4ebedbde8b39058730d4ee.jpg\",\"title\":\"42\",\"titleFormat\":\"第42话\",\"vid\":\"\",\"longTitle\":\"忍者的工作\",\"hasNext\":true,\"i\":41,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":197746,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":19751393,\"cid\":32205592,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Ff36a736f8843736f1929f986fd5123e76b8fd9bf.jpg\",\"title\":\"43\",\"titleFormat\":\"第43话\",\"vid\":\"\",\"longTitle\":\"白夜团 现身\",\"hasNext\":true,\"i\":42,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":197747,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":19751378,\"cid\":32205553,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F5d1b3557d5cc9462fae8aca31b27466eb545b5d4.jpg\",\"title\":\"44\",\"titleFormat\":\"第44话\",\"vid\":\"\",\"longTitle\":\"鹿台的迷茫\",\"hasNext\":true,\"i\":43,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":197748,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":19751385,\"cid\":32205580,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fc70405588c91bda8d5955a72354aa107fe739cdb.jpg\",\"title\":\"45\",\"titleFormat\":\"第45话\",\"vid\":\"\",\"longTitle\":\"雪天的记忆\",\"hasNext\":true,\"i\":44,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":197768,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":19851681,\"cid\":32376154,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fa972a250fdc9f701a021eddb03689d8236ddba67.jpg\",\"title\":\"46\",\"titleFormat\":\"第46话\",\"vid\":\"\",\"longTitle\":\"执行!!极夜作战\",\"hasNext\":true,\"i\":45,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":197950,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":20180689,\"cid\":32947820,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F247b77bb20b45d36710a525783af83b66a95c2ad.jpg\",\"title\":\"47\",\"titleFormat\":\"第47话\",\"vid\":\"\",\"longTitle\":\"向往的姿态\",\"hasNext\":true,\"i\":46,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":198166,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":20474219,\"cid\":33473921,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fa4c8da3eb380414e8f0d9d7ff35e694ade205ed0.jpg\",\"title\":\"48\",\"titleFormat\":\"第48话\",\"vid\":\"\",\"longTitle\":\"下忍纪实！！\",\"hasNext\":true,\"i\":47,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":198235,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":20760106,\"cid\":33997327,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F3d50ac49395f5ce8510d152b48c97b8121b7014b.jpg\",\"title\":\"49\",\"titleFormat\":\"第49话\",\"vid\":\"\",\"longTitle\":\"山葵与泪\",\"hasNext\":true,\"i\":48,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":198361,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":21044585,\"cid\":34516848,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fabbd2f924d900204fee5206b6d74528440aba3d4.jpg\",\"title\":\"50\",\"titleFormat\":\"第50话\",\"vid\":\"\",\"longTitle\":\"中忍选拔考试推荐会\",\"hasNext\":true,\"i\":49,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":199426,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":21331877,\"cid\":35069990,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F060c69a836ca7f08cce393dbaef540666a23c083.jpg\",\"title\":\"51\",\"titleFormat\":\"第51话\",\"vid\":\"\",\"longTitle\":\"博人的生日\",\"hasNext\":true,\"i\":50,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":200147,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":21632270,\"cid\":35647461,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F84cea3cb4acc27342781d418adebc2dc0f8c2470.jpg\",\"title\":\"52\",\"titleFormat\":\"第52话\",\"vid\":\"\",\"longTitle\":\"佐助的影子\",\"hasNext\":true,\"i\":51,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":200760,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":21944226,\"cid\":36246421,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fd8af4bb393411299d799cde8d7cbc6a4d0d5c246.jpg\",\"title\":\"53\",\"titleFormat\":\"第53话\",\"vid\":\"\",\"longTitle\":\"向日葵的生日\",\"hasNext\":true,\"i\":52,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":200761,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":22253003,\"cid\":36831350,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F253ca7b95c0c295c1cfe60c58473f6053e065e01.jpg\",\"title\":\"54\",\"titleFormat\":\"第54话\",\"vid\":\"\",\"longTitle\":\"佐助和博人\",\"hasNext\":true,\"i\":53,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":202712,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":22556610,\"cid\":37405582,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F4bf9193bdb869d306961b16a7ca91799377f8517.jpg\",\"title\":\"55\",\"titleFormat\":\"第55话\",\"vid\":\"\",\"longTitle\":\"科学忍具\",\"hasNext\":true,\"i\":54,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":202714,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":22897698,\"cid\":38049816,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fc54966588d0fce4120bcf73b00faee84efc4d6e5.jpg\",\"title\":\"56\",\"titleFormat\":\"第56话\",\"vid\":\"\",\"longTitle\":\"对手集结！！\",\"hasNext\":true,\"i\":55,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":202715,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":23199185,\"cid\":38619377,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F653602441013c77bd1b4a63dccfd6223dca291ad.jpg\",\"title\":\"57\",\"titleFormat\":\"第57话\",\"vid\":\"\",\"longTitle\":\"不能输的理由\",\"hasNext\":true,\"i\":56,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":202716,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":23509871,\"cid\":39219142,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F807f9fd37bdc6dc03c5f0530ba43169a2bd27c63.jpg\",\"title\":\"58\",\"titleFormat\":\"第58话\",\"vid\":\"\",\"longTitle\":\"淘汰赛 开始\",\"hasNext\":true,\"i\":57,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":202717,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":23832532,\"cid\":39856346,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F4d9f08afc28e16e68dd2ac502341766632c2b7c7.jpg\",\"title\":\"59\",\"titleFormat\":\"第59话\",\"vid\":\"\",\"longTitle\":\"博人VS鹿台\",\"hasNext\":true,\"i\":58,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":202718,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":24187470,\"cid\":44063242,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Ff8e77f40a0b2db172c67fbe876af26715c233a86.jpg\",\"title\":\"60\",\"titleFormat\":\"第60话\",\"vid\":\"\",\"longTitle\":\"木叶 VS 砂隐\",\"hasNext\":true,\"i\":59,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":202719,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":24495038,\"cid\":41139731,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F152afc0e2298484a84c93986273c9de395a5f406.jpg\",\"title\":\"61\",\"titleFormat\":\"第61话\",\"vid\":\"\",\"longTitle\":\"砂铁使 新希\",\"hasNext\":true,\"i\":60,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":202720,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":24873265,\"cid\":41959429,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F4bf7d97d2a48a9b21a0642c97481fad549a2029e.jpg\",\"title\":\"62\",\"titleFormat\":\"第62话\",\"vid\":\"\",\"longTitle\":\"大筒木 袭来!!\",\"hasNext\":true,\"i\":61,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":202721,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":25741964,\"cid\":43940324,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Ff99472f3aaa6bab1fc9fd1f4e6d5ee02d44a80ea.jpg\",\"title\":\"63\",\"titleFormat\":\"第63话\",\"vid\":\"\",\"longTitle\":\"佐助的杀手锏\",\"hasNext\":true,\"i\":62,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":202722,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":26172802,\"cid\":44910297,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F72055f2aff1514f28020978ba2f50766ee4c89fc.jpg\",\"title\":\"64\",\"titleFormat\":\"第64话\",\"vid\":\"\",\"longTitle\":\"夺回鸣人\",\"hasNext\":true,\"i\":63,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":202723,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":27186699,\"cid\":46964165,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F13351f1bf53a153d840834b090c022f08bb1052d.jpg\",\"title\":\"65\",\"titleFormat\":\"第65话\",\"vid\":\"\",\"longTitle\":\"父与子\",\"hasNext\":true,\"i\":64,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":202724,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":27740100,\"cid\":47885121,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Ffa6395add4576c1c250a78cade7235c85e7af98f.jpg\",\"title\":\"66\",\"titleFormat\":\"第66话\",\"vid\":\"\",\"longTitle\":\"我的故事\",\"hasNext\":true,\"i\":65,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":202725,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":28333929,\"cid\":49002086,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F78d3f2ad6ee53e4fed8a2f38f87eeef0dfa22a61.jpg\",\"title\":\"67\",\"titleFormat\":\"第67话\",\"vid\":\"\",\"longTitle\":\"超蝶蝶 蝶模式\",\"hasNext\":true,\"i\":66,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":202726,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":28876778,\"cid\":50056107,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F687298b60d33531d249d09b393b08bb772a50003.jpg\",\"title\":\"68\",\"titleFormat\":\"第68话\",\"vid\":\"\",\"longTitle\":\"超蝴蝶 吻模式\",\"hasNext\":true,\"i\":67,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":202727,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":29458384,\"cid\":51216210,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F5b720517a15da2a3e020875ed058a5f2e17a2e7d.jpg\",\"title\":\"69\",\"titleFormat\":\"第69话\",\"vid\":\"\",\"longTitle\":\"超蝴蝶 恋爱骚动\",\"hasNext\":true,\"i\":68,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":202728,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":30058633,\"cid\":52391801,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F49a53a4d5beae53280be8ef5ede9de3646202652.jpg\",\"title\":\"70\",\"titleFormat\":\"第70话\",\"vid\":\"\",\"longTitle\":\"紧张的另一边\",\"hasNext\":true,\"i\":69,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":202729,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":30665608,\"cid\":53528438,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F115314da6b814eeb2a6702add5c46a9b6f44766c.jpg\",\"title\":\"71\",\"titleFormat\":\"第71话\",\"vid\":\"\",\"longTitle\":\"全世界最坚硬的石头\",\"hasNext\":true,\"i\":70,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":202730,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":31163440,\"cid\":54439291,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fec9146f4b7e0bc46b1d7d8933bc76232465e1e23.jpg\",\"title\":\"72\",\"titleFormat\":\"第72话\",\"vid\":\"\",\"longTitle\":\"巳月的意志\",\"hasNext\":true,\"i\":71,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":248850,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":31601291,\"cid\":55259256,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fff1f97f39b393e2399c66a622d0155adde4dfb94.jpg\",\"title\":\"73\",\"titleFormat\":\"第73话\",\"vid\":\"\",\"longTitle\":\"月亮的背面\",\"hasNext\":true,\"i\":72,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":249968,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":32059324,\"cid\":56081557,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F377a0478ea4cb230ae3b6551141da92bbe0c23de.jpg\",\"title\":\"74\",\"titleFormat\":\"第74话\",\"vid\":\"\",\"longTitle\":\"敌人是猪鹿蝶\",\"hasNext\":true,\"i\":73,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":249969,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":32059991,\"cid\":56082893,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fd2d722df1c10a79cc231baa7dfb82729930d9866.jpg\",\"title\":\"75\",\"titleFormat\":\"第75话\",\"vid\":\"\",\"longTitle\":\"龙地洞的试炼\",\"hasNext\":true,\"i\":74,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251453,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":33342516,\"cid\":58362556,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fb3f8a9077441ecffc42c2895b95d30e4e0198145.jpg\",\"title\":\"76\",\"titleFormat\":\"第76话\",\"vid\":\"\",\"longTitle\":\"触及逆鳞\",\"hasNext\":true,\"i\":75,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251454,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":33820019,\"cid\":59216660,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F280794e4c444c0ab80cd11e53b634015e83773d6.jpg\",\"title\":\"77\",\"titleFormat\":\"第77话\",\"vid\":\"\",\"longTitle\":\"强敌 辛牙的猛攻\",\"hasNext\":true,\"i\":76,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251455,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":34318615,\"cid\":60117588,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F3691b6ddf765637c4fa283b6e8747343d0addf5d.jpg\",\"title\":\"78\",\"titleFormat\":\"第78话\",\"vid\":\"\",\"longTitle\":\"各自的想法\",\"hasNext\":true,\"i\":77,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251456,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":34797705,\"cid\":60959502,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Ffd76d38691a028378b5d203d3b833f801abd0d48.jpg\",\"title\":\"79\",\"titleFormat\":\"第79话\",\"vid\":\"\",\"longTitle\":\"再会、巳月\",\"hasNext\":true,\"i\":78,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251457,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":35283780,\"cid\":61836745,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fed8cd96ebf6f923b6b278571320a0321a41d9efd.jpg\",\"title\":\"80\",\"titleFormat\":\"第80话\",\"vid\":\"\",\"longTitle\":\"巳月的朋友\",\"hasNext\":true,\"i\":79,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251458,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":35758054,\"cid\":62737265,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fe527309ddda5f04fe7b76796bd17e23bb66411d7.jpg\",\"title\":\"81\",\"titleFormat\":\"第81话\",\"vid\":\"\",\"longTitle\":\"博人的愿望\",\"hasNext\":true,\"i\":80,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251459,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":36219930,\"cid\":63584911,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fb068b4b9446f46242e5b79085f3b308781fbbe43.jpg\",\"title\":\"82\",\"titleFormat\":\"第82话\",\"vid\":\"\",\"longTitle\":\"潜入！岩隐村\",\"hasNext\":true,\"i\":81,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251460,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":36738303,\"cid\":64513624,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F25a9a245a7e4a5758ea2e853d4ed5f51ba3a1d25.jpg\",\"title\":\"83\",\"titleFormat\":\"第83话\",\"vid\":\"\",\"longTitle\":\"大野木的正义\",\"hasNext\":true,\"i\":82,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251461,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":37236307,\"cid\":65442368,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F2d0a5b4a0703805d34ccca3edbe0cc6e54860231.jpg\",\"title\":\"84\",\"titleFormat\":\"第84话\",\"vid\":\"\",\"longTitle\":\"大野木的心思 空的心思\",\"hasNext\":true,\"i\":83,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251462,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":37785629,\"cid\":66428077,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F094634eca1ce5b9c0b264ca4085f6a6b672fbe1f.jpg\",\"title\":\"85\",\"titleFormat\":\"第85话\",\"vid\":\"\",\"longTitle\":\"心之石\",\"hasNext\":true,\"i\":84,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251463,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":38297749,\"cid\":67317477,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F88ef88777506eccac8d4614b27479d2bfcb29f30.jpg\",\"title\":\"86\",\"titleFormat\":\"第86话\",\"vid\":\"\",\"longTitle\":\"小土的意志\",\"hasNext\":true,\"i\":85,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251464,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":38832330,\"cid\":68253949,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F876bdae3000b20b32728c0d9618ec0c1775b3fb7.jpg\",\"title\":\"87\",\"titleFormat\":\"第87话\",\"vid\":\"\",\"longTitle\":\"活着的感觉\",\"hasNext\":true,\"i\":86,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251465,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":40056711,\"cid\":70351840,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F6b282e51fce08a19c609a1542cc6295651f2abd4.jpg\",\"title\":\"88\",\"titleFormat\":\"第88话\",\"vid\":\"\",\"longTitle\":\"激战 黑曜！！\",\"hasNext\":true,\"i\":87,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251466,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":40643556,\"cid\":71381358,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F40fccde04ed0641aca98759c29a3ab03d74cfeeb.jpg\",\"title\":\"89\",\"titleFormat\":\"第89话\",\"vid\":\"\",\"longTitle\":\"贯彻之心\",\"hasNext\":true,\"i\":88,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251467,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":41207309,\"cid\":72375446,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F961cae9aedb61acb27cb4cad7117d99e8c025955.jpg\",\"title\":\"90\",\"titleFormat\":\"第90话\",\"vid\":\"\",\"longTitle\":\"巳月与石英\",\"hasNext\":true,\"i\":89,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251468,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":41849825,\"cid\":73481086,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F994e1edaa2b7f6f066e52282a02fbc0190e2ff75.jpg\",\"title\":\"91\",\"titleFormat\":\"第91话\",\"vid\":\"\",\"longTitle\":\"大野木的意志\",\"hasNext\":true,\"i\":90,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251469,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":42487358,\"cid\":74552667,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Ff92556b5f7f1aa0a87b28ee43bc370c92e47c39a.jpg\",\"title\":\"92\",\"titleFormat\":\"第92话\",\"vid\":\"\",\"longTitle\":\"新的日常\",\"hasNext\":true,\"i\":91,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251470,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":43081790,\"cid\":75537424,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fea5006933498d0abe4a73fa9b5298cf61e9b08a9.jpg\",\"title\":\"93\",\"titleFormat\":\"第93话\",\"vid\":\"\",\"longTitle\":\"亲子日\",\"hasNext\":true,\"i\":92,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251471,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":43836738,\"cid\":77363160,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F5693f187d3b7a784649dfe3451ad48315f406317.jpg\",\"title\":\"94\",\"titleFormat\":\"第94话\",\"vid\":\"\",\"longTitle\":\"美食满满 大胃王比拼\",\"hasNext\":true,\"i\":93,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251472,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":44590073,\"cid\":78065927,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fbef26f6c4a15168b985c2309b0edf356608772e4.jpg\",\"title\":\"95\",\"titleFormat\":\"第95话\",\"vid\":\"\",\"longTitle\":\"父女亲近大作战\",\"hasNext\":true,\"i\":94,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251473,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":45217561,\"cid\":79174199,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F5519d022b2f680bbfa799face34fe20b28e54521.jpg\",\"title\":\"96\",\"titleFormat\":\"第96话\",\"vid\":\"\",\"longTitle\":\"血与汗与泪\",\"hasNext\":true,\"i\":95,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251474,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":45889347,\"cid\":80407349,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F9edf73c64df4eb6c21f85c96070c5faa925f4142.jpg\",\"title\":\"97\",\"titleFormat\":\"第97话\",\"vid\":\"\",\"longTitle\":\"鹿台的决断\",\"hasNext\":true,\"i\":96,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251475,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":46544869,\"cid\":81542268,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F529893f336d3969223a57a76d72ae1d0fdad54e5.jpg\",\"title\":\"98\",\"titleFormat\":\"第98话\",\"vid\":\"\",\"longTitle\":\"被诅咒的森林\",\"hasNext\":true,\"i\":97,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251476,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":47206551,\"cid\":82674140,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F43ddefd952b0556d5da07d7c01f6b203cfb4ef9a.jpg\",\"title\":\"99\",\"titleFormat\":\"第99话\",\"vid\":\"\",\"longTitle\":\"重吾与咒印\",\"hasNext\":true,\"i\":98,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251477,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":47857397,\"cid\":83828174,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F33c36bc52cf717deeafce4f333248db024c7ac01.jpg\",\"title\":\"100\",\"titleFormat\":\"第100话\",\"vid\":\"\",\"longTitle\":\"既定的道路\",\"hasNext\":true,\"i\":99,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":251478,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":48602377,\"cid\":85112480,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F3435a0a7cafa057c39af77398c147592d03d5f2e.jpg\",\"title\":\"101\",\"titleFormat\":\"第101话\",\"vid\":\"\",\"longTitle\":\"重吾的援军\",\"hasNext\":true,\"i\":100,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":268358,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":49301804,\"cid\":86333451,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F687c0e783d7b89c713535359853bff1d8dc50d73.jpg\",\"title\":\"102\",\"titleFormat\":\"第102话\",\"vid\":\"\",\"longTitle\":\"乱战！！\",\"hasNext\":true,\"i\":101,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":269591,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":50039860,\"cid\":87601564,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fb253005ee64333d0642e26dff3fef228e013ded7.jpg\",\"title\":\"103\",\"titleFormat\":\"第103话\",\"vid\":\"\",\"longTitle\":\"迁徙的季节\",\"hasNext\":true,\"i\":102,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":269896,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":50749548,\"cid\":88854515,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fd8041ee68f1400e0a6efdded9038da7c4fcb4349.jpg\",\"title\":\"104\",\"titleFormat\":\"第104话\",\"vid\":\"\",\"longTitle\":\"小小的室友\",\"hasNext\":true,\"i\":103,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":270888,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":51513792,\"cid\":90168012,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F6e71d553cffad75a9b02784a4188eb3422c5b037.jpg\",\"title\":\"105\",\"titleFormat\":\"第105话\",\"vid\":\"\",\"longTitle\":\"心的伤口\",\"hasNext\":true,\"i\":104,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":271155,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":52174413,\"cid\":91327730,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F5a8845f23e6932defad1dad7f039d11971e41850.jpg\",\"title\":\"106\",\"titleFormat\":\"第106话\",\"vid\":\"\",\"longTitle\":\"汤烟忍法帖 S级任务！！\",\"hasNext\":true,\"i\":105,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":271286,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":52951469,\"cid\":92648648,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F17246b58556cf4a0884df60d8b99d0db02d1c143.jpg\",\"title\":\"107\",\"titleFormat\":\"第107话\",\"vid\":\"\",\"longTitle\":\"汤烟忍法帖 犬猫战争！！\",\"hasNext\":true,\"i\":106,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":271287,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":53660455,\"cid\":93868286,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F79eda2ff3088ec025eb67106f488cc0ef6c9d06e.jpg\",\"title\":\"108\",\"titleFormat\":\"第108话\",\"vid\":\"\",\"longTitle\":\"汤烟忍法帖·幽灵旅馆！！\",\"hasNext\":true,\"i\":107,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":271288,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":54256636,\"cid\":94911345,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fa662e1a603d89afbefd4a345b4e36d43033b32f8.jpg\",\"title\":\"109\",\"titleFormat\":\"第109话\",\"vid\":\"\",\"longTitle\":\"汤烟忍法帖·薯片与大岩石！！\",\"hasNext\":true,\"i\":108,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":271289,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":55039645,\"cid\":96249114,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fe6789f1dd9c9767c82d82af78d1130aa8bac460f.jpg\",\"title\":\"110\",\"titleFormat\":\"第110话\",\"vid\":\"\",\"longTitle\":\"汤烟忍法帖·复苏温泉！！\",\"hasNext\":true,\"i\":109,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":271290,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":55574662,\"cid\":97165273,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F3752bae5f54f4ff848ecc8c807068e5a5cfaa585.jpg\",\"title\":\"111\",\"titleFormat\":\"第111话\",\"vid\":\"\",\"longTitle\":\"汤烟忍法帖·未来之玉\",\"hasNext\":true,\"i\":110,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":271291,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":56562835,\"cid\":98826561,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F58ae787b93ad8a330fa08b9dcef97ef7097084dd.jpg\",\"title\":\"112\",\"titleFormat\":\"第112话\",\"vid\":\"\",\"longTitle\":\"中忍晋升首脑会议\",\"hasNext\":true,\"i\":111,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":271292,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":57332713,\"cid\":100100793,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F0994145c7c4e4a2be8635c32342b89687539e2c1.jpg\",\"title\":\"113\",\"titleFormat\":\"第113话\",\"vid\":\"\",\"longTitle\":\"队长的资质\",\"hasNext\":true,\"i\":112,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":276282,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":58200121,\"cid\":101537553,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F662410d132b99d0605d611802e0f18ed89d51a7c.jpg\",\"title\":\"114\",\"titleFormat\":\"第114话\",\"vid\":\"\",\"longTitle\":\"激忍代理战争！！\",\"hasNext\":true,\"i\":113,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":276283,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":59138527,\"cid\":103075793,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F7aed5bcf102ed94f3415f009571482d54c9ea8f2.jpg\",\"title\":\"115\",\"titleFormat\":\"第115话\",\"vid\":\"\",\"longTitle\":\"第二十五班\",\"hasNext\":true,\"i\":114,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":276284,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":60126517,\"cid\":104700024,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fb9ee8b66f0098ff0631af38c1d295d27969cdb86.jpg\",\"title\":\"116\",\"titleFormat\":\"第116话\",\"vid\":\"\",\"longTitle\":\"木叶丸与柠檬\",\"hasNext\":true,\"i\":115,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":276285,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":61120755,\"cid\":106343806,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fd5118592f0f15bb520157ad7cb6409624cf88bb3.jpg\",\"title\":\"117\",\"titleFormat\":\"第117话\",\"vid\":\"\",\"longTitle\":\"柠檬的秘密\",\"hasNext\":true,\"i\":116,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":276286,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":62140925,\"cid\":108023239,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Ffff6a1b45215a4e6beced0fb0fe30d75e36dd9b8.jpg\",\"title\":\"118\",\"titleFormat\":\"第118话\",\"vid\":\"\",\"longTitle\":\"吞噬记忆之物\",\"hasNext\":true,\"i\":117,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":276287,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":63219812,\"cid\":109796532,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F5f6fdfe937ea93b203665512f75f1b8663a6d24c.jpg\",\"title\":\"119\",\"titleFormat\":\"第119话\",\"vid\":\"\",\"longTitle\":\"木叶丸的忍道\",\"hasNext\":true,\"i\":118,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":276288,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":64253918,\"cid\":111563944,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F10357f415e9c0861a2b66f55478c808436c9855e.jpg\",\"title\":\"120\",\"titleFormat\":\"第120话\",\"vid\":\"\",\"longTitle\":\"朝着佐助的方向\",\"hasNext\":true,\"i\":119,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":276289,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":65294237,\"cid\":114700893,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fd478f893009e86b53601122f85cb3b62419513be.jpg\",\"title\":\"121\",\"titleFormat\":\"第121话\",\"vid\":\"\",\"longTitle\":\"守住一尾！！重任在身\",\"hasNext\":true,\"i\":120,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":276290,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":66017188,\"cid\":114522243,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F9286ead955031a4fb0759cc0dfe7dd6e529f6c21.jpg\",\"title\":\"122\",\"titleFormat\":\"第122话\",\"vid\":\"\",\"longTitle\":\"傀儡大战\",\"hasNext\":true,\"i\":121,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":276291,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":67046555,\"cid\":116261209,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fe698cf83ea2e173a022650b90406b3d4060606e8.jpg\",\"title\":\"123\",\"titleFormat\":\"第123话\",\"vid\":\"\",\"longTitle\":\"浦式复活\",\"hasNext\":true,\"i\":122,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":276292,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":67833320,\"cid\":117577525,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fac25bb0729e9eedd45a78c732a9baed590744944.jpg\",\"title\":\"124\",\"titleFormat\":\"第124话\",\"vid\":\"\",\"longTitle\":\"决断之时\",\"hasNext\":true,\"i\":123,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":276293,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":68618485,\"cid\":118923854,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F6f9b5e651fab40f1c2f2b59fbc67fd2122c77aa5.jpg\",\"title\":\"125\",\"titleFormat\":\"第125话\",\"vid\":\"\",\"longTitle\":\"博人与新希\",\"hasNext\":true,\"i\":124,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":276294,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":69383945,\"cid\":120254749,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fa3328b2f0569b0309465349bd0be37700c19dc9c.jpg\",\"title\":\"126\",\"titleFormat\":\"第126话\",\"vid\":\"\",\"longTitle\":\"守鹤的企图\",\"hasNext\":true,\"i\":125,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":276295,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":70311341,\"cid\":121807390,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002Fcf2f40703c332b79f687e6af5d018f0213b2c405.jpg\",\"title\":\"127\",\"titleFormat\":\"第127话\",\"vid\":\"\",\"longTitle\":\"亲热攻略\",\"hasNext\":true,\"i\":126,\"sectionType\":0,\"releaseDate\":\"\"},{\"loaded\":false,\"id\":276296,\"badge\":\"会员\",\"badgeType\":0,\"epStatus\":13,\"aid\":71000883,\"cid\":123022491,\"from\":\"bangumi\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F7ac6d2d5c7330aaa580e086087aae970c3a5a07a.jpg\",\"title\":\"128\",\"titleFormat\":\"第128话\",\"vid\":\"\",\"longTitle\":\"浦式的目的\",\"hasNext\":false,\"i\":127,\"sectionType\":0,\"releaseDate\":\"\"}],\"epInfo\":{\"loaded\":false,\"id\":-1,\"aid\":-1,\"cid\":-1,\"badge\":\"\",\"badgeType\":-1,\"epStatus\":-1,\"page\":-1,\"from\":\"\",\"cover\":\"\",\"title\":\"\",\"titleFormat\":\"\",\"vid\":\"\",\"longTitle\":\"\",\"hasNext\":false,\"i\":-1},\"sections\":[],\"ssList\":[{\"id\":5978,\"title\":\"TV\",\"type\":1,\"pgcType\":\"anime\",\"cover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Fbangumi\\\\u002F264a2252fc7ab3503d5e7b879b0ba64cf7f80831.jpg\",\"epCover\":\"\\\\u002F\\\\u002Fi0.hdslb.com\\\\u002Fbfs\\\\u002Farchive\\\\u002F7ac6d2d5c7330aaa580e086087aae970c3a5a07a.jpg\",\"desc\":\"更新至第128话\",\"badge\":\"会员专享\",\"badgeType\":0,\"views\":140231416,\"follows\":1829043}],\"userState\":{\"loaded\":false,\"vipInfo\":{}},\"ssPayMent\":null,\"epPayMent\":null,\"player\":{\"loaded\":false,\"miniOn\":false,\"limitType\":0},\"sponsor\":{\"allReady\":false,\"allState\":0,\"allRank\":[],\"allMine\":null,\"allCount\":0,\"weekReady\":false,\"weekState\":0,\"weekRank\":[],\"weekMine\":null,\"weekCount\":0},\"ssRecom\":[],\"insertScripts\":[\"\\\\u002F\\\\u002Fs1.hdslb.com\\\\u002Fbfs\\\\u002Fstatic\\\\u002Fpgcv\\\\u002F1.video.311be83473af33d135e5e732f1888d362cbcae9c.js\",\"\\\\u002F\\\\u002Fs1.hdslb.com\\\\u002Fbfs\\\\u002Fstatic\\\\u002Fpgcv\\\\u002Fvideo.311be83473af33d135e5e732f1888d362cbcae9c.js\"]};(function(){var s;(s=document.currentScript||document.scripts[document.scripts.length-1]).parentNode.removeChild(s);}());</script><script type=\"text/javascript\">if(window.__INITIAL_STATE__){var jsUrls=window.__INITIAL_STATE__.insertScripts||[];function insertLink(){for(var e=[\"//static.hdslb.com/phoenix/dist/css/comment.min.css\",\"//pay.bilibili.com/paysdk/bilipay.css\"],i=0;i<e.length;i++){var t=document.createElement(\"link\");t.rel=\"stylesheet\",t.type=\"text/css\",t.href=e[i],document.body.appendChild(t)}}function insertScript(){if(!(window.scriptIsInject||jsUrls[0]&&-1<window.document.body.innerHTML.indexOf(jsUrls[0]))){window.scriptIsInject=!0,window.jQuery||jsUrls.unshift(\"//static.hdslb.com/js/jquery.min.js\"),window.Promise||jsUrls.unshift(\"//static.hdslb.com/js/promise.auto.min.js\");for(var e=0;e<jsUrls.length;e++)loadScript(jsUrls[e])}}function loadScript(e,i){var t=document.createElement(\"script\");t.type=\"text/javascript\",-1==(t.src=e).indexOf(\"jquery\")&&-1==e.indexOf(\"promise\")&&(t.crossOrigin=\"true\"),document.body.appendChild(t),t.onload=function(){i&&i()}}var ep=window.__INITIAL_STATE__&&window.__INITIAL_STATE__.epInfo,md=window.__INITIAL_STATE__&&window.__INITIAL_STATE__.mediaInfo;function setSize(){var e=md.specialCover?1070:1280,i=350,t=window.innerHeight||document.documentElement.clientHeight,o=window.innerWidth||window.document.documentElement.clientWidth,n=Math.round(md.specialCover?16*(t-264)/9-i:16*(.743*t-108.7)/9),d=o-152-i,s=d<n?d:n;s<638&&(s=638),e<s&&(s=e);var a=s+i,r=o<a+152,l=document.querySelector(\".main-container\");if(l.style.width=(r?a+76:a)+\"px\",l.style.paddingLeft=(r?76:0)+\"px\",l.style.marginLeft=r?\"0\":\"\",l.style.marginRight=r?\"0\":\"\",md.specialCover){var p=Math.round(9*a/16+46);(y=document.querySelector(\"#player_module\")).style.height=p+\"px\",y.style.width=a+\"px\",y.style.paddingLeft=\"\",y.style.left=r?\"76px\":\"\",y.style.transform=r?\"none\":\"\",y.style.webkitTransform=r?\"none\":\"\";var _=document.querySelector(\".special-cover\"),w=document.querySelector(\".plp-l\"),c=document.querySelector(\".plp-r\"),m=document.querySelector(\"#danmukuBox\");_.style.height=p+218+\"px\",w.style.paddingTop=p+24+\"px\",c.style.marginTop=p+40+\"px\",m.style.top=-(p+40)+\"px\"}else{var u=parseInt(9*(s+(window.isWide?i:0))/16)+46+(window.hasBlackSide&&!window.isWide?96:0);if((m=document.querySelector(\"#danmukuBox\")).style.top=\"\",window.isWide){(y=document.querySelector(\"#player_module\")).style.height=u-0+\"px\",y.style.width=\"\",y.style.paddingLeft=r?\"76px\":\"\",y.style.left=\"\",y.style.transform=\"\",y.style.webkitTransform=\"\";w=document.querySelector(\".plp-l\"),c=document.querySelector(\".plp-r\");w.style.paddingTop=u-0+\"px\",c.style.marginTop=u+16+\"px\"}else{var y;(y=document.querySelector(\"#player_module\")).style.height=u-0+\"px\",y.style.width=\"\",y.style.paddingLeft=\"\",y.style.left=\"\",y.style.transform=\"\",y.style.webkitTransform=\"\";w=document.querySelector(\".plp-l\"),c=document.querySelector(\".plp-r\");w.removeAttribute(\"style\"),c.removeAttribute(\"style\")}}}if(window.isWide=!!md.specialCover||!md.multiMode,window.PlayerAgent={player_widewin:function(){window.isWide=!0,setSize()},player_fullwin:function(){window.isWide=!1,setSize()},toggleBlackSide:function(e){window.hasBlackSide=e,setSize()}},setSize(),window.document.body.style.opacity=\"\",window.addEventListener(\"resize\",setSize),ep&&ep.loaded&&-1<ep.id&&!md.rights.appOnly){var r=function(i){window.pgcPlayerLoaded=!0;var e=window.__PGC_USERSTATE__.vip_info||{},t=window.__PGC_USERSTATE__.login&&(1===window.__PGC_USERSTATE__.pay||1===window.__PGC_USERSTATE__.sponsor||1===window.__PGC_USERSTATE__.pay_pack_paid||0!==e.type&&1===e.status);window.playerCallback=function(){window.jwTimer=setInterval(function(){var e=window.document.querySelector(\"#player_placeholder\");\"function\"==typeof e.jwAddEventListener&&(e.jwAddEventListener(\"jwplayerMediaComplete\",\"function(){ window.showPreviewMask();}\"),clearInterval(window.jwTimer))},1e3)},window.getPlayerExtraParams=function(){var e=window.__PGC_USERSTATE__.paster||{};return{title:ep.longTitle?ep.titleFormat+\" \"+ep.longTitle:ep.titleFormat,mediaTitle:md.title,epTitle:ep.longTitle,epIndex:ep.titleFormat,epCover:ep.cover,epStat:ep.epStatus||md.status,squarePic:md.squareCover||\"//static.hdslb.com/images/square-cover-default.png\",record:0!==ep.sectionType?\"\":md.playerRecord?encodeURIComponent(md.playerRecord):\"\",shareText:window.__INITIAL_STATE__.h1Title+\" #哔哩哔哩#\",sharePic:md.cover,shareUrl:\"//www.bilibili.com/bangumi/play/ss\"+md.ssId+\"/\",isStart:md.pub.isStart||!md.rights.canWatch&&0!==ep.sectionType,isPreview:md.rights.isPreview&&i,allowTicket:md.payMent.sixType.allowTicket,deadLineToast:md.payMent.sixType.allowTimeLimit&&!i&&window.__PGC_USERSTATE__.dead_line?window.__PGC_USERSTATE__.dead_line:void 0,canPlay1080:t,allowSponsor:md.rights.allowBp,multiMode:md.multiMode,epNeedPay:i,isFollow:1===window.__PGC_USERSTATE__.follow,canWatch:md.rights.canWatch,sponsorWeekList:[],sponsorTotalList:[],sponsorCount:0,danmakuListOffset:md.specialCover?0:64,paster:{aid:ep.aid||0,cid:e.aid||0,type:e.type||0,duration:e.duration||0,allow_jump:e.allow_jump||0,url:e.url?e.url:\"\"},pubTime:md.pub.timeShow,recommend:[]}};var o,n,d;if(\"bangumi\"===ep.from){var s=(o=new RegExp(\"(^|&)\"+\"t\"+\"=([^&|^#]*)(&|#|$)\"),n=window.location.href.split(\"?\"),null!==(d=(1<n.length?n[1]:\"\").match(o))?unescape(d[2]):\"\"),a=window.__PGC_USERSTATE__.progress||{},r=a.last_time||0,l=-1<a.last_ep_id?a.last_ep_id:void 0,p=encodeURIComponent(\"module=\"+(2!==md.ssType?\"bangumi\":\"movie\")+\"&season_type=\"+md.ssType),_=(1===(e=window.__PGC_USERSTATE__.vipInfo||{}).type||2===e.type)&&1===e.status,w=window.__PGC_USERSTATE__.paster||{},c=!_&&1!==window.__PGC_USERSTATE__.pay&&1!==window.__PGC_USERSTATE__.sponsor&&w.cid&&0<w.cid?1:void 0,m=\"cid=\"+ep.cid+\"&aid=\"+ep.aid+\"&season_type=\"+md.ssType+(r?\"&lastplaytime=\"+1e3*r:\"\")+(l?\"&last_ep_id=\"+l:\"\")+(c?\"&pre_ad=1\":\"\")+\"&has_next=\"+(ep.hasNext?1:0)+(!md.multiMode||md.specialCover?\"&as_wide=1\":\"\")+\"&player_type=\"+(2!==md.ssType?1:2)+\"&urlparam=\"+p+\"&seasonId=\"+md.ssId+\"&episodeId=\"+ep.id+\"&record=\"+(0!==ep.sectionType?\"\":md.playerRecord?encodeURIComponent(md.playerRecord):\"\")+(md.specialCover?\"&isListSpread=1&canCollapse=0\":\"\")+\"&t=\"+s;window.EmbedPlayer(\"player\",\"//static.hdslb.com/play.swf\",m,\"\",\"\",window.playerCallback)}else window.document.querySelector(\"#bofqi\").innerHTML=\\'<embed height=\"100%\" width=\"100%\" src=\"//static.hdslb.com/tc.swf\" type=\"application/x-shockwave-flash\" pluginspage=\"//www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash\" allowscriptaccess=\"always\" rel=\"noreferrer\" quality=\"high\" flashvars=\"bili-cid=\\'+ep.cid+\"&amp;bili-aid=\"+ep.aid+\"&amp;vid=\"+ep.vid+\\'\" allowfullscreen=\"true\">\\'},promiseArr=[];if(window.__PGC_USERSTATE__)startPlayer();else{var cnt=0;function t(){new Promise(function(e){window.$.ajax({url:\"//api.bilibili.com/pgc/view/web/season/user/status\",type:\"get\",dataType:\"json\",xhrFields:{withCredentials:!0},data:{season_id:md.ssId,ts:(new Date).getTime()},success:function(e){0===e.code?window.__PGC_USERSTATE__=e.result||{}:window.__PGC_USERSTATE__={}}}).always(e)}).then(function(){startPlayer()})}window.jQuery||(cnt+=1,loadScript(\"//static.hdslb.com/js/jquery.min.js\",function(){0==--cnt&&t()})),window.Promise||(cnt+=1,loadScript(\"//static.hdslb.com/js/promise.auto.min.js\",function(){0==--cnt&&t()}))}function startPlayer(){var e=!1,i=!0,t=!1;window.__INITIAL_STATE__.sections.forEach(function(e){0<e.epList.length&&(t=!0)});var o=window.__PGC_USERSTATE__.vipInfo||{},n=o&&(1===o.type||2===o.type)&&1===o.status,d=!(6!==ep.epStatus&&7!==ep.epStatus&&13!==ep.epStatus||window.__PGC_USERSTATE__.login&&n),s=12===ep.epStatus&&(!window.__PGC_USERSTATE__.login||1!==window.__PGC_USERSTATE__.pay_pack_paid);if(1!==window.__PGC_USERSTATE__.pay&&(d||8===ep.epStatus||9===ep.epStatus||s)&&(e=!0),1===window.__PGC_USERSTATE__.area_limit?i=!1:md.pub.isStart||0!==window.__INITIAL_STATE__.epList.length||t?md.rights.isPreview&&(0<window.__INITIAL_STATE__.epList.length||t)?i=!0:e&&(i=!1):i=!1,1===window.__PGC_USERSTATE__.area_limit&&3===window.__PGC_USERSTATE__.ban_area_show)window.location.href=\"/404\";else if(i){if(\"bangumi\"===ep.from){var a=setTimeout(function(){clearTimeout(a),insertScript()},4e3);window.PlayerMediaLoaded=function(){clearTimeout(a),window.performance&&window.performance.timing&&(window.performance.timing.firstscreenfinish=window.performance.timing.playerStage3||(new Date).getTime()),insertScript(),window.PlayerMediaLoaded=void 0}}else insertScript();r(e)}else insertScript()}}else insertScript()}</script></body></html>'"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "r.text"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'aaa': []}"
+      ]
+     },
+     "execution_count": 1,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "a={}\n",
+    "a['aaa']=[]\n",
+    "a"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "3.1416926635905345\n"
+     ]
+    }
+   ],
+   "source": [
+    "pi=0\n",
+    "for i in range(1,10000):\n",
+    "    pi+=4*((-1)**(i-1))*(1/(2*i-1))\n",
+    "print(pi)\n",
+    "    "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "?range\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "1*1=1\n",
+      "1*2=2 2*2=4\n",
+      "1*3=3 2*3=6 3*3=9\n",
+      "1*4=4 2*4=8 3*4=12 4*4=16\n",
+      "1*5=5 2*5=10 3*5=15 4*5=20 5*5=25\n",
+      "1*6=6 2*6=12 3*6=18 4*6=24 5*6=30 6*6=36\n",
+      "1*7=7 2*7=14 3*7=21 4*7=28 5*7=35 6*7=42 7*7=49\n",
+      "1*8=8 2*8=16 3*8=24 4*8=32 5*8=40 6*8=48 7*8=56 8*8=64\n",
+      "1*9=9 2*9=18 3*9=27 4*9=36 5*9=45 6*9=54 7*9=63 8*9=72 9*9=81\n"
+     ]
+    }
+   ],
+   "source": [
+    "\n",
+    "for i in range(1,10):\n",
+    "    for j in range(1,i+1):\n",
+    "        if j!=i:\n",
+    "            print('{0}*{1}={2}'.format(j,i,i*j),end=' ')\n",
+    "        else:\n",
+    "            print('{0}*{1}={2}'.format(i,j,i*j),end='\\n')\n",
+    "        "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "?print"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 66,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "* \n",
+      "* * \n",
+      "* * * \n",
+      "* * * * \n",
+      "* * * * * \n"
+     ]
+    }
+   ],
+   "source": [
+    "for i in range(1,6):\n",
+    "    for j in range(0,i+1):\n",
+    "        if j!=i:\n",
+    "            print('*',end=' ')\n",
+    "        else:\n",
+    "            print('')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 95,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "* * * * * \n",
+      "* * * * \n",
+      "* * * \n",
+      "* * \n",
+      "* \n"
+     ]
+    }
+   ],
+   "source": [
+    "for j in range(5,0,-1):\n",
+    "    print(j*'* ')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 103,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "* * * * * o \n",
+      "* * * * o o \n",
+      "* * * o o o \n",
+      "* * o o o o \n",
+      "* o o o o o \n"
+     ]
+    }
+   ],
+   "source": [
+    "for j in range(5,0,-1):\n",
+    "    print(j*'* '+(5-j+1)*'o ')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 116,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "* * * * * 1\n",
+      "* * * * 2 *\n",
+      "* * * 3 * *\n",
+      "* * 4 * * *\n",
+      "* 5 * * * *\n",
+      "6 * * * * *\n"
+     ]
+    }
+   ],
+   "source": [
+    "for i in range(1,7):\n",
+    "    for j in range(1,7):\n",
+    "        if j+i==7:\n",
+    "            if i==1:\n",
+    "                print(i)\n",
+    "            else:\n",
+    "                print(i,end=' ')\n",
+    "        elif j!=6:\n",
+    "            print('*',end=' ')\n",
+    "        else:\n",
+    "            print('*')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 123,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[0, 1, 2, 3, 4]\n"
+     ]
+    }
+   ],
+   "source": [
+    "a=list((i for i in range(5)))\n",
+    "print(a)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 174,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def Sushu(Su):\n",
+    "    k=0\n",
+    "    i_list=[]\n",
+    "    for i in range(2,Su):\n",
+    "        if Su%i==0:\n",
+    "            i_list.append(i)\n",
+    "            k+=1\n",
+    "            \n",
+    "        else:\n",
+    "            pass\n",
+    "    if k==0:\n",
+    "        print('{0}是素数'.format(Su))\n",
+    "    else:\n",
+    "        for m in i_list:\n",
+    "            print('{0} 不是素数，能被{1}整除' .format(Su,m))\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 175,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "17是素数\n"
+     ]
+    }
+   ],
+   "source": [
+    "Sushu(17)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 177,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "234 不是素数，能被2整除\n",
+      "234 不是素数，能被3整除\n",
+      "234 不是素数，能被6整除\n",
+      "234 不是素数，能被9整除\n",
+      "234 不是素数，能被13整除\n",
+      "234 不是素数，能被18整除\n",
+      "234 不是素数，能被26整除\n",
+      "234 不是素数，能被39整除\n",
+      "234 不是素数，能被78整除\n",
+      "234 不是素数，能被117整除\n"
+     ]
+    }
+   ],
+   "source": [
+    "Sushu(234)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 457,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# #三门问题\n",
+    "import random\n",
+    "def open_a_door(door):\n",
+    "    door=[0,0,0]\n",
+    "    car_in_door=random.randrange(0,3)\n",
+    "    # 0 for car and 1 for sheep, two sheep and a car but we dont know\n",
+    "    for i in range(3):\n",
+    "        if i==car_in_door:\n",
+    "            door[car_in_door]=0\n",
+    "        else:\n",
+    "            door[i]=1\n",
+    "    #choose the door 0:\n",
+    "    choose_a_door=0\n",
+    "    #open a other door with a sheep:\n",
+    "    open_a_other_door=random.randrange(1,3)\n",
+    "    not_opened_door=3-open_a_other_door\n",
+    "    if (door[open_a_other_door]==1):\n",
+    "        #print('打开了第{}扇门，里面有一只羊'.format(open_a_other_door))\n",
+    "        #if open this door 1:\n",
+    "        if door==True:\n",
+    "            if car_in_door==choose_a_door:\n",
+    "                you_win_a_car=True\n",
+    "            else:\n",
+    "                you_win_a_car=False\n",
+    "        # if not open this door 1\n",
+    "        else:\n",
+    "            if car_in_door==not_opened_door:\n",
+    "                you_win_a_car=True\n",
+    "            else:\n",
+    "                you_win_a_car=False\n",
+    "    else:\n",
+    "        #print('打开了第{}扇门，里面有一只羊'.format(not_opened_door))\n",
+    "        #if open this door 1:\n",
+    "        if door==True:\n",
+    "            you_win_a_car=False\n",
+    "\n",
+    "        #if not oen this door 1:\n",
+    "        else:\n",
+    "            you_win_a_car=True\n",
+    "    return you_win_a_car "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 476,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "win:66.6942%,lost:33.3058%\n"
+     ]
+    }
+   ],
+   "source": [
+    "w=0\n",
+    "l=0\n",
+    "n=1000000\n",
+    "open_a_door(True)\n",
+    "for i in range(n):\n",
+    "    result=open_a_door(True)\n",
+    "    if result==True:\n",
+    "        w+=1\n",
+    "    else:\n",
+    "        l+=1\n",
+    "print('win:{0}%,lost:{1}%'.format(w*100/n,l*100/n))\n",
+    "    "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 477,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "True"
+      ]
+     },
+     "execution_count": 477,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "open_a_door(True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 569,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "4"
+      ]
+     },
+     "execution_count": 569,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "pointer=random.randrange(0,6)\n",
+    "pointer"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 618,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#掷骰子喝酒问题\n",
+    "def end_Expection(end_of_the_game=False):\n",
+    "    cup=[False]*6\n",
+    "    times=1\n",
+    "    all_cup_filled=[True]*6\n",
+    "    while end_of_the_game == False:\n",
+    "        pointer=random.randrange(0,6)\n",
+    "        if cup[pointer]==False:\n",
+    "            cup[pointer]=True\n",
+    "            times+=1\n",
+    "            if all_cup_filled==cup:\n",
+    "                end_of_the_game = True\n",
+    "        else:\n",
+    "            cup[pointer]=False\n",
+    "            \n",
+    "            \n",
+    "                \n",
+    "        \n",
+    "    return times\n",
+    "    \n",
+    "        \n",
+    "            \n",
+    "        "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 650,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {
+      "needs_background": "light"
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "import matplotlib.pyplot as plt\n",
+    "from collections import Counter\n",
+    "time=[]\n",
+    "n=100000\n",
+    "for i in range(n):\n",
+    "    time.append(end_Expection())\n",
+    "x_keys=Counter(time).keys()\n",
+    "y_values=Counter(time).values()\n",
+    "plt.scatter(x_keys,y_values,color='b')\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 645,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "True"
+      ]
+     },
+     "execution_count": 645,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "cup1=[False]*6\n",
+    "cup2=[False]*6\n",
+    "cup1==cup2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#寻找枢纽序hao\n",
+    "def find_key_index(lst):\n",
+    "    i=0\n",
+    "    if len(lst) < 3:\n",
+    "        return -1\n",
+    "    else:\n",
+    "        while i<len(lst):\n",
+    "            if sum(lst[:i])==sum(lst[i+1:len(lst)]):\n",
+    "                return i\n",
+    "            else:\n",
+    "                i+=1\n",
+    "        return -1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "i=[2,3,5,4,1]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "2"
+      ]
+     },
+     "execution_count": 15,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "find_key_index(i)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#@pysnooper.snoop()\n",
+    "def subsets_recursive(nums):\n",
+    "    lst = []\n",
+    "    result = []\n",
+    "    subsets_recursive_helper(result, lst, nums, 0);\n",
+    "    return result;\n",
+    "@pysnooper.snoop()\n",
+    "def subsets_recursive_helper(result, lst, nums, pos):\n",
+    "    result.append(lst[:])\n",
+    "    for i in range(pos, len(nums)):\n",
+    "        lst.append(nums[i]) #\n",
+    "        subsets_recursive_helper(result, lst, nums, i+1) #\n",
+    "        lst.pop()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[[], ['a'], ['a', 'b'], ['a', 'b', 'c'], ['a', 'c'], ['b'], ['b', 'c'], ['c']]\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "Source path:... <ipython-input-9-12774e457fe6>\n",
+      "Starting var:.. result = []\n",
+      "Starting var:.. lst = []\n",
+      "Starting var:.. nums = ['a', 'b', 'c']\n",
+      "Starting var:.. pos = 0\n",
+      "12:17:12.568397 call         8 def subsets_recursive_helper(result, lst, nums, pos):\n",
+      "12:17:12.568829 line         9     result.append(lst[:])\n",
+      "Modified var:.. result = [[]]\n",
+      "12:17:12.568896 line        10     for i in range(pos, len(nums)):\n",
+      "New var:....... i = 0\n",
+      "12:17:12.568959 line        11         lst.append(nums[i]) #\n",
+      "Modified var:.. lst = ['a']\n",
+      "12:17:12.569018 line        12         subsets_recursive_helper(result, lst, nums, i+1) #\n",
+      "    Starting var:.. result = [[]]\n",
+      "    Starting var:.. lst = ['a']\n",
+      "    Starting var:.. nums = ['a', 'b', 'c']\n",
+      "    Starting var:.. pos = 1\n",
+      "    12:17:12.569088 call         8 def subsets_recursive_helper(result, lst, nums, pos):\n",
+      "    12:17:12.569175 line         9     result.append(lst[:])\n",
+      "    Modified var:.. result = [[], ['a']]\n",
+      "    12:17:12.569219 line        10     for i in range(pos, len(nums)):\n",
+      "    New var:....... i = 1\n",
+      "    12:17:12.569273 line        11         lst.append(nums[i]) #\n",
+      "    Modified var:.. lst = ['a', 'b']\n",
+      "    12:17:12.569331 line        12         subsets_recursive_helper(result, lst, nums, i+1) #\n",
+      "        Starting var:.. result = [[], ['a']]\n",
+      "        Starting var:.. lst = ['a', 'b']\n",
+      "        Starting var:.. nums = ['a', 'b', 'c']\n",
+      "        Starting var:.. pos = 2\n",
+      "        12:17:12.569397 call         8 def subsets_recursive_helper(result, lst, nums, pos):\n",
+      "        12:17:12.569486 line         9     result.append(lst[:])\n",
+      "        Modified var:.. result = [[], ['a'], ['a', 'b']]\n",
+      "        12:17:12.569530 line        10     for i in range(pos, len(nums)):\n",
+      "        New var:....... i = 2\n",
+      "        12:17:12.569585 line        11         lst.append(nums[i]) #\n",
+      "        Modified var:.. lst = ['a', 'b', 'c']\n",
+      "        12:17:12.569641 line        12         subsets_recursive_helper(result, lst, nums, i+1) #\n",
+      "            Starting var:.. result = [[], ['a'], ['a', 'b']]\n",
+      "            Starting var:.. lst = ['a', 'b', 'c']\n",
+      "            Starting var:.. nums = ['a', 'b', 'c']\n",
+      "            Starting var:.. pos = 3\n",
+      "            12:17:12.569708 call         8 def subsets_recursive_helper(result, lst, nums, pos):\n",
+      "            12:17:12.569797 line         9     result.append(lst[:])\n",
+      "            Modified var:.. result = [[], ['a'], ['a', 'b'], ['a', 'b', 'c']]\n",
+      "            12:17:12.569895 line        10     for i in range(pos, len(nums)):\n",
+      "            12:17:12.569960 return      10     for i in range(pos, len(nums)):\n",
+      "            Return value:.. None\n",
+      "        Modified var:.. result = [[], ['a'], ['a', 'b'], ['a', 'b', 'c']]\n",
+      "        12:17:12.570029 line        13         lst.pop()\n",
+      "        Modified var:.. lst = ['a', 'b']\n",
+      "        12:17:12.570088 line        10     for i in range(pos, len(nums)):\n",
+      "        12:17:12.570145 return      10     for i in range(pos, len(nums)):\n",
+      "        Return value:.. None\n",
+      "    Modified var:.. result = [[], ['a'], ['a', 'b'], ['a', 'b', 'c']]\n",
+      "    12:17:12.570212 line        13         lst.pop()\n",
+      "    Modified var:.. lst = ['a']\n",
+      "    12:17:12.570270 line        10     for i in range(pos, len(nums)):\n",
+      "    Modified var:.. i = 2\n",
+      "    12:17:12.570326 line        11         lst.append(nums[i]) #\n",
+      "    Modified var:.. lst = ['a', 'c']\n",
+      "    12:17:12.570382 line        12         subsets_recursive_helper(result, lst, nums, i+1) #\n",
+      "        Starting var:.. result = [[], ['a'], ['a', 'b'], ['a', 'b', 'c']]\n",
+      "        Starting var:.. lst = ['a', 'c']\n",
+      "        Starting var:.. nums = ['a', 'b', 'c']\n",
+      "        Starting var:.. pos = 3\n",
+      "        12:17:12.570448 call         8 def subsets_recursive_helper(result, lst, nums, pos):\n",
+      "        12:17:12.570546 line         9     result.append(lst[:])\n",
+      "        Modified var:.. result = [[], ['a'], ['a', 'b'], ['a', 'b', 'c'], ['a', 'c']]\n",
+      "        12:17:12.570593 line        10     for i in range(pos, len(nums)):\n",
+      "        12:17:12.570649 return      10     for i in range(pos, len(nums)):\n",
+      "        Return value:.. None\n",
+      "    Modified var:.. result = [[], ['a'], ['a', 'b'], ['a', 'b', 'c'], ['a', 'c']]\n",
+      "    12:17:12.570713 line        13         lst.pop()\n",
+      "    Modified var:.. lst = ['a']\n",
+      "    12:17:12.570772 line        10     for i in range(pos, len(nums)):\n",
+      "    12:17:12.570828 return      10     for i in range(pos, len(nums)):\n",
+      "    Return value:.. None\n",
+      "Modified var:.. result = [[], ['a'], ['a', 'b'], ['a', 'b', 'c'], ['a', 'c']]\n",
+      "12:17:12.570895 line        13         lst.pop()\n",
+      "Modified var:.. lst = []\n",
+      "12:17:12.570953 line        10     for i in range(pos, len(nums)):\n",
+      "Modified var:.. i = 1\n",
+      "12:17:12.571009 line        11         lst.append(nums[i]) #\n",
+      "Modified var:.. lst = ['b']\n",
+      "12:17:12.571066 line        12         subsets_recursive_helper(result, lst, nums, i+1) #\n",
+      "    Starting var:.. result = [[], ['a'], ['a', 'b'], ['a', 'b', 'c'], ['a', 'c']]\n",
+      "    Starting var:.. lst = ['b']\n",
+      "    Starting var:.. nums = ['a', 'b', 'c']\n",
+      "    Starting var:.. pos = 2\n",
+      "    12:17:12.571133 call         8 def subsets_recursive_helper(result, lst, nums, pos):\n",
+      "    12:17:12.571312 line         9     result.append(lst[:])\n",
+      "    Modified var:.. result = [[], ['a'], ['a', 'b'], ['a', 'b', 'c'], ['a', 'c'], ['b']]\n",
+      "    12:17:12.571385 line        10     for i in range(pos, len(nums)):\n",
+      "    New var:....... i = 2\n",
+      "    12:17:12.571454 line        11         lst.append(nums[i]) #\n",
+      "    Modified var:.. lst = ['b', 'c']\n",
+      "    12:17:12.571519 line        12         subsets_recursive_helper(result, lst, nums, i+1) #\n",
+      "        Starting var:.. result = [[], ['a'], ['a', 'b'], ['a', 'b', 'c'], ['a', 'c'], ['b']]\n",
+      "        Starting var:.. lst = ['b', 'c']\n",
+      "        Starting var:.. nums = ['a', 'b', 'c']\n",
+      "        Starting var:.. pos = 3\n",
+      "        12:17:12.571596 call         8 def subsets_recursive_helper(result, lst, nums, pos):\n",
+      "        12:17:12.571693 line         9     result.append(lst[:])\n",
+      "        Modified var:.. result = [[], ['a'], ['a', 'b'], ['a', 'b', 'c'], ['a', 'c'], ['b'], ['b', 'c']]\n",
+      "        12:17:12.571741 line        10     for i in range(pos, len(nums)):\n",
+      "        12:17:12.571799 return      10     for i in range(pos, len(nums)):\n",
+      "        Return value:.. None\n",
+      "    Modified var:.. result = [[], ['a'], ['a', 'b'], ['a', 'b', 'c'], ['a', 'c'], ['b'], ['b', 'c']]\n",
+      "    12:17:12.571870 line        13         lst.pop()\n",
+      "    Modified var:.. lst = ['b']\n",
+      "    12:17:12.571931 line        10     for i in range(pos, len(nums)):\n",
+      "    12:17:12.571992 return      10     for i in range(pos, len(nums)):\n",
+      "    Return value:.. None\n",
+      "Modified var:.. result = [[], ['a'], ['a', 'b'], ['a', 'b', 'c'], ['a', 'c'], ['b'], ['b', 'c']]\n",
+      "12:17:12.572063 line        13         lst.pop()\n",
+      "Modified var:.. lst = []\n",
+      "12:17:12.572132 line        10     for i in range(pos, len(nums)):\n",
+      "Modified var:.. i = 2\n",
+      "12:17:12.572191 line        11         lst.append(nums[i]) #\n",
+      "Modified var:.. lst = ['c']\n",
+      "12:17:12.572250 line        12         subsets_recursive_helper(result, lst, nums, i+1) #\n",
+      "    Starting var:.. result = [[], ['a'], ['a', 'b'], ['a', 'b', 'c'], ['a', 'c'], ['b'], ['b', 'c']]\n",
+      "    Starting var:.. lst = ['c']\n",
+      "    Starting var:.. nums = ['a', 'b', 'c']\n",
+      "    Starting var:.. pos = 3\n",
+      "    12:17:12.572320 call         8 def subsets_recursive_helper(result, lst, nums, pos):\n",
+      "    12:17:12.572414 line         9     result.append(lst[:])\n",
+      "    Modified var:.. result = [[], ['a'], ['a', 'b'], ['a', 'b', 'c'], ['a', 'c'], ['b'], ['b', 'c'], ['c']]\n",
+      "    12:17:12.572460 line        10     for i in range(pos, len(nums)):\n",
+      "    12:17:12.572520 return      10     for i in range(pos, len(nums)):\n",
+      "    Return value:.. None\n",
+      "Modified var:.. result = [[], ['a'], ['a', 'b'], ['a', 'b', 'c'], ['a', 'c'], ['b'], ['b', 'c'], ['c']]\n",
+      "12:17:12.572588 line        13         lst.pop()\n",
+      "Modified var:.. lst = []\n",
+      "12:17:12.572718 line        10     for i in range(pos, len(nums)):\n",
+      "12:17:12.572805 return      10     for i in range(pos, len(nums)):\n",
+      "Return value:.. None\n"
+     ]
+    }
+   ],
+   "source": [
+    "nums = ['a', 'b', 'c']\n",
+    "print(subsets_recursive(nums))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "@pysnooper.snoop()\n",
+    "def searchInsert(nums, target):\n",
+    "    if len(nums) == 0:\n",
+    "        pos = 0\n",
+    "        return pos\n",
+    "    left,right = 0,len(nums)-1\n",
+    "    while left+1 < right:\n",
+    "        mid = left + (right - left)//2\n",
+    "        if target == nums[mid]:\n",
+    "            pos = mid\n",
+    "        if target < nums[mid]:\n",
+    "            right = mid\n",
+    "        else:\n",
+    "            left = mid\n",
+    "    if nums[left] >= target:\n",
+    "         pos = left\n",
+    "    if nums[right] >= target:\n",
+    "        pos = right\n",
+    "    else:\n",
+    "        pos = right+1\n",
+    "    return pos"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "Source path:... <ipython-input-11-570dfdcb5b91>\n",
+      "Starting var:.. nums = [1, 3, 5, 6]\n",
+      "Starting var:.. target = 5\n",
+      "19:27:07.742497 call         1 nums=[1,3,5,6]\n",
+      "19:27:07.742837 line         3 searchInsert(nums,target)\n"
+     ]
+    },
+    {
+     "ename": "IndexError",
+     "evalue": "list index out of range",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mIndexError\u001b[0m                                Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-12-aff7160f569a>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[0mnums\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;36m3\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;36m5\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;36m6\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      2\u001b[0m \u001b[0mtarget\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;36m5\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 3\u001b[0;31m \u001b[0msearchInsert\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mnums\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0mtarget\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/pysnooper/tracer.py\u001b[0m in \u001b[0;36msimple_wrapper\u001b[0;34m(*args, **kwargs)\u001b[0m\n\u001b[1;32m    254\u001b[0m         \u001b[0;32mdef\u001b[0m \u001b[0msimple_wrapper\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m*\u001b[0m\u001b[0margs\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m**\u001b[0m\u001b[0mkwargs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    255\u001b[0m             \u001b[0;32mwith\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 256\u001b[0;31m                 \u001b[0;32mreturn\u001b[0m \u001b[0mfunction\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m*\u001b[0m\u001b[0margs\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m**\u001b[0m\u001b[0mkwargs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    257\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    258\u001b[0m         \u001b[0;34m@\u001b[0m\u001b[0mfunctools\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mwraps\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfunction\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m<ipython-input-11-570dfdcb5b91>\u001b[0m in \u001b[0;36msearchInsert\u001b[0;34m(nums, target)\u001b[0m\n\u001b[1;32m      4\u001b[0m         \u001b[0mpos\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;36m0\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      5\u001b[0m         \u001b[0;32mreturn\u001b[0m \u001b[0mpos\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 6\u001b[0;31m     \u001b[0mleft\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0mright\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;36m0\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0mlen\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mnums\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m-\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      7\u001b[0m     \u001b[0;32mwhile\u001b[0m \u001b[0mleft\u001b[0m\u001b[0;34m+\u001b[0m\u001b[0;36m1\u001b[0m \u001b[0;34m<\u001b[0m \u001b[0mright\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      8\u001b[0m         \u001b[0mmid\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mleft\u001b[0m \u001b[0;34m+\u001b[0m \u001b[0;34m(\u001b[0m\u001b[0mright\u001b[0m \u001b[0;34m-\u001b[0m \u001b[0mleft\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m//\u001b[0m\u001b[0;36m2\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m<ipython-input-11-570dfdcb5b91>\u001b[0m in \u001b[0;36msearchInsert\u001b[0;34m(nums, target)\u001b[0m\n\u001b[1;32m      4\u001b[0m         \u001b[0mpos\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;36m0\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      5\u001b[0m         \u001b[0;32mreturn\u001b[0m \u001b[0mpos\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 6\u001b[0;31m     \u001b[0mleft\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0mright\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;36m0\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0mlen\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mnums\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m-\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      7\u001b[0m     \u001b[0;32mwhile\u001b[0m \u001b[0mleft\u001b[0m\u001b[0;34m+\u001b[0m\u001b[0;36m1\u001b[0m \u001b[0;34m<\u001b[0m \u001b[0mright\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      8\u001b[0m         \u001b[0mmid\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mleft\u001b[0m \u001b[0;34m+\u001b[0m \u001b[0;34m(\u001b[0m\u001b[0mright\u001b[0m \u001b[0;34m-\u001b[0m \u001b[0mleft\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m//\u001b[0m\u001b[0;36m2\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/anaconda3/lib/python3.7/site-packages/pysnooper/tracer.py\u001b[0m in \u001b[0;36mtrace\u001b[0;34m(self, frame, event, arg)\u001b[0m\n\u001b[1;32m    359\u001b[0m                        format(**locals()))\n\u001b[1;32m    360\u001b[0m             \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mlast_source_path\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0msource_path\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 361\u001b[0;31m         \u001b[0msource_line\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0msource\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0mline_no\u001b[0m \u001b[0;34m-\u001b[0m \u001b[0;36m1\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    362\u001b[0m         \u001b[0mthread_info\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;34m\"\"\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    363\u001b[0m         \u001b[0;32mif\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mthread_info\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mIndexError\u001b[0m: list index out of range"
+     ]
+    }
+   ],
+   "source": [
+    "nums=[1,3,5,6]\n",
+    "target=5\n",
+    "searchInsert(nums,target)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[1, 2]"
+      ]
+     },
+     "execution_count": 13,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "lst=[1,2,3,4]\n",
+    "lst[:2]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[1, 2]"
+      ]
+     },
+     "execution_count": 15,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "a,b=1,2\n",
+    "[a,b]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 39,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def twoSum(numbers, target):\n",
+    "    for i in range(len(numbers)):\n",
+    "        if i<len(numbers):\n",
+    "            if target>numbers[i] and target<numbers[i+1]:\n",
+    "                right=i \n",
+    "        else:\n",
+    "            right = i\n",
+    "    a=0\n",
+    "    while a<right:\n",
+    "        if numbers[a]+numbers[right] > target:\n",
+    "            a+=1\n",
+    "        elif numbers[a]+numbers[right] < target:\n",
+    "            right=right-1\n",
+    "        else:\n",
+    "            return [a+1,right+1]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "UnboundLocalError",
+     "evalue": "local variable 'right' referenced before assignment",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mUnboundLocalError\u001b[0m                         Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-40-3cb59442ff80>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[0mlst\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;36m0\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;36m0\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;36m2\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;36m4\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      2\u001b[0m \u001b[0mtarget\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;36m0\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 3\u001b[0;31m \u001b[0mtwoSum\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mlst\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0mtarget\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;32m<ipython-input-39-2e215ac540e7>\u001b[0m in \u001b[0;36mtwoSum\u001b[0;34m(numbers, target)\u001b[0m\n\u001b[1;32m      8\u001b[0m             \u001b[0mright\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mi\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      9\u001b[0m     \u001b[0ma\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;36m0\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m---> 10\u001b[0;31m     \u001b[0;32mwhile\u001b[0m \u001b[0ma\u001b[0m\u001b[0;34m<\u001b[0m\u001b[0mright\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m     11\u001b[0m         \u001b[0;32mif\u001b[0m \u001b[0mnumbers\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0ma\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m+\u001b[0m\u001b[0mnumbers\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0mright\u001b[0m\u001b[0;34m]\u001b[0m \u001b[0;34m>\u001b[0m \u001b[0mtarget\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m     12\u001b[0m             \u001b[0ma\u001b[0m\u001b[0;34m+=\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mUnboundLocalError\u001b[0m: local variable 'right' referenced before assignment"
+     ]
+    }
+   ],
+   "source": [
+    "lst=[0,0,2,4]\n",
+    "target=0\n",
+    "twoSum(lst,target)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "class Node:\n",
+    "    def __init__ (self,value = None,next = None):\n",
+    "        self.value = value\n",
+    "        self.next = next\n",
+    "\n",
+    "class LinkedList:\n",
+    "    def __init__(self):\n",
+    "        self.head=Node()\n",
+    "        self.size=0\n",
+    "    def add_first(self,value):\n",
+    "        node = Node(value,None)\n",
+    "        node.next = self.head.next\n",
+    "        self.head.next = node\n",
+    "        self.size+=1\n",
+    "        \n",
+    "    def add_last(self,value):\n",
+    "        new_node = Node(value)\n",
+    "        node=self.head\n",
+    "        while node.next != None:\n",
+    "            node = node.next\n",
+    "        node.next=new_node\n",
+    "        self.size+=1\n",
+    "        \n",
+    "    def print_list(self):\n",
+    "        node = self.head\n",
+    "        while node.next != None :\n",
+    "            node = node.next\n",
+    "            print('{} -->'.format(node.value),end = ' ')\n",
+    "        print('None')\n",
+    "        \n",
+    "    def len(self):\n",
+    "        return self.size\n",
+    "    \n",
+    "    def remove_first(self):\n",
+    "        self.head.next=self.head.next.next\n",
+    "        if self.size > 0:\n",
+    "            self.size-=1\n",
+    "        else:\n",
+    "            self.size=0\n",
+    "    def remove_last(self):\n",
+    "        node=self.head\n",
+    "        for i in range(self.size-1):\n",
+    "            node=node.next\n",
+    "        node.next=None\n",
+    "        if self.size > 0:\n",
+    "            self.size-=1\n",
+    "        else:\n",
+    "            self.size=0\n",
+    "    def insert_at(self,value,index):\n",
+    "        if (index<0 or index>self.size):\n",
+    "            raise ValueError('')\n",
+    "        new_node=Node(value)\n",
+    "        node=self.head\n",
+    "        for i in range(index):\n",
+    "            node=node.next\n",
+    "        new_node.next=node.next\n",
+    "        node.next=new_node\n",
+    "        self.size+=1\n",
+    "            \n",
+    "    \n",
+    "    \n",
+    "        "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "100 --> 10 --> 8 --> 5 --> None\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "4"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "l1=LinkedList()\n",
+    "l1.add_first(5)\n",
+    "l1.add_first(8)\n",
+    "l1.add_first(10)\n",
+    "l1.add_first(100)\n",
+    "l1.print_list()\n",
+    "l1.len()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 72,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "100 --> 10 --> 8 --> 5 --> None\n",
+      "100 --> 10 --> 15 --> 8 --> 5 --> None\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "5"
+      ]
+     },
+     "execution_count": 72,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "l1.print_list()\n",
+    "l1.insert_at(15,2)\n",
+    "l1.print_list()\n",
+    "l1.len()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 59,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "0\n"
+     ]
+    }
+   ],
+   "source": [
+    "for i in range(1):\n",
+    "    print(i)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "10"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "l1.head.next.next.value\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "5"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "dic={}\n",
+    "dic[4]=5\n",
+    "dic.get(4)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'1**2**3**5**6**7'"
+      ]
+     },
+     "execution_count": 15,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "s='123567'\n",
+    "l=s.split()\n",
+    "l\n",
+    "m='**'\n",
+    "k=m.join(s)\n",
+    "k"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import numpy as np\n",
+    "size=(150,150)\n",
+    "trees=np.zeros(size,dtype=bool)\n",
+    "trees.sum()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "1"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "5%2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "1.5"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "3/2\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[[5, 6, 7], [5, 64, 7]]"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "lst=[]\n",
+    "lst.append([5,6,7])\n",
+    "lst.append([5,64,7])\n",
+    "lst\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[2, 3, 4, 5]"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "a=[2,3,4,4,5]\n",
+    "n=set(a)\n",
+    "list(n)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "B\n",
+      "1\n"
+     ]
+    }
+   ],
+   "source": [
+    "a='ABCDEFG'\n",
+    "b=input()\n",
+    "for i in range(len(a)):\n",
+    "    if b == a[i]:\n",
+    "        print(i+1)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
